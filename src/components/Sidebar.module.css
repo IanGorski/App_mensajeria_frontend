@@ -1,0 +1,257 @@
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 60px;
+    height: 100vh;
+    height: 100dvh;
+    background-color: #2a2f32;
+    border-right: 1px solid #3c4043;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s ease;
+    z-index: 1000;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.sidebar.expanded {
+    width: 240px;
+}
+
+.hamburgerBtn {
+    width: 60px;
+    height: 60px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aebac1;
+    transition: background-color 0.18s, color 0.18s;
+    flex-shrink: 0;
+    outline: none;
+    box-shadow: none;
+}
+
+.hamburgerBtn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.hamburgerBtn:active {
+    background-color: #e9edef;
+    color: #00a884;
+    box-shadow: none;
+}
+
+.hamburgerBtn:hover {
+    background-color: #3c4144;
+    color: #aebac1;
+    transition: background-color 0.18s, color 0.18s;
+}
+
+
+.hamburgerIcon {
+    position: relative;
+    width: 18px;
+    height: 18px;
+}
+
+.hamburgerIcon span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #aebac1;
+    margin: 3px 0;
+    transition: 0.3s;
+    border-radius: 1px;
+}
+
+.menuItems {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.menuItem {
+    width: 100%;
+    height: 50px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px 0 20px;
+    color: #aebac1;
+    transition: background-color 0.18s, color 0.18s;
+    font-size: 14px;
+    text-align: left;
+    outline: none;
+    box-shadow: none;
+}
+
+.menuItem:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.menuItem:active {
+    background-color: #e9edef;
+    color: #00a884;
+    box-shadow: none;
+}
+
+.menuItem:hover {
+    background-color: #3c4144;
+    color: #aebac1;
+    transition: background-color 0.18s, color 0.18s;
+}
+
+.menuItem {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.menuIcon {
+    margin-right: 10px;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    z-index: 2;
+}
+
+.menuLabel {
+    margin-left: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease 0.1s;
+    white-space: nowrap;
+}
+
+.sidebar.expanded .menuLabel {
+    opacity: 1;
+}
+
+.sidebar.expanded .menuItem {
+    justify-content: flex-start;
+}
+
+/* Separador */
+.bottomSpacer {
+    height: 1px;
+    background-color: #3c4043;
+    margin: 8px 16px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    margin-top: auto;
+}
+
+.userSection {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    border-top: 1px solid #3c4043;
+    min-height: 72px;
+    flex-shrink: 0;
+}
+
+.userAvatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #00a884;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.userInfo {
+    margin-left: 12px;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.3s ease 0.1s;
+    min-width: 0;
+}
+
+.sidebar.expanded .userInfo {
+    opacity: 1;
+}
+
+.userName {
+    color: #e9edef;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.userStatus {
+    color: #8696a0;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Conversación */
+.conversationItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #3c4043;
+    cursor: pointer;
+}
+
+.pinButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #aebac1;
+    transition: color 0.18s;
+}
+
+.pinButton:hover {
+    color: #00a884;
+}
+
+/* Botón de cerrar sesión */
+.logoutBtn {
+    margin-top: 8px;
+    border-top: 1px solid #3c4043;
+    color: red;
+}
+
+.logoutBtn:hover {
+    background-color: #d32f2f !important;
+    color: white !important;
+}
+
+.logoutBtn:active {
+    background-color: #c62828 !important;
+    color: white !important;
+}
+
+/*--*/
+@media (max-width: 768px) {
+    .menuItem {
+        height: 45px;
+        padding: 0 15px;
+        font-size: 13px;
+    }
+}

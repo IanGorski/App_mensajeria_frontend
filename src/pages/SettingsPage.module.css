@@ -1,0 +1,417 @@
+.settingsPage {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    background-color: #f0f2f5;
+    overflow-y: auto;
+}
+
+.settingsHeader {
+    padding: 30px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: center;
+}
+
+.settingsHeader h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #111b21;
+}
+
+.settingsHeader p {
+    color: #54656f;
+    font-size: 1rem;
+}
+
+.settingsContent {
+    flex: 1;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.settingsSection {
+    background-color: #ffffff;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.settingsSection h3 {
+    padding: 16px 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+    color: #111b21;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.settingsItem {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.settingsItem:last-child {
+    border-bottom: none;
+}
+
+.settingsItem:hover {
+    background-color: #f8f9fa;
+}
+
+.settingsIcon {
+    font-size: 1.5rem;
+    margin-right: 16px;
+    width: 24px;
+    text-align: center;
+}
+
+.settingsText {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.settingsTitle {
+    font-size: 1rem;
+    color: #111b21;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.settingsDesc {
+    font-size: 0.9rem;
+    color: #54656f;
+}
+
+/* Modal Styles */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
+}
+
+.modal {
+    background-color: #ffffff;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    position: relative;
+}
+
+.closeButton {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #54656f;
+    transition: background-color 0.2s;
+    z-index: 1;
+}
+
+.closeButton:hover {
+    background-color: #f0f2f5;
+}
+
+.modalContent {
+    padding: 40px 30px 30px;
+}
+
+.modalContent h3 {
+    margin: 0 0 20px 0;
+    font-size: 1.5rem;
+    color: #111b21;
+}
+
+.settingGroup {
+    margin-bottom: 20px;
+}
+
+.settingGroup label {
+    display: block;
+    margin-bottom: 8px;
+    color: #111b21;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.settingGroup input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.select,
+.input,
+.textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.select:focus,
+.input:focus,
+.textarea:focus {
+    outline: none;
+    border-color: #00a884;
+}
+
+.textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.range {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #e0e0e0;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #00a884;
+    cursor: pointer;
+}
+
+.range::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #00a884;
+    cursor: pointer;
+    border: none;
+}
+
+.primaryButton,
+.saveButton,
+.dangerButton {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.primaryButton {
+    background-color: #00a884;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.primaryButton:hover {
+    background-color: #008f6e;
+}
+
+.saveButton {
+    background-color: #0088cc;
+    color: white;
+}
+
+.saveButton:hover {
+    background-color: #006fa3;
+}
+
+.dangerButton {
+    background-color: #dc3545;
+    color: white;
+}
+
+.dangerButton:hover {
+    background-color: #c82333;
+}
+
+.colorGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+}
+
+.colorOption {
+    padding: 20px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    color: white;
+    font-weight: 500;
+    transition: all 0.2s;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.colorOption:hover {
+    transform: scale(1.05);
+}
+
+.colorOption.active {
+    border-color: #111b21;
+    box-shadow: 0 0 0 3px rgba(0, 168, 132, 0.3);
+}
+
+.fontOptions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.fontOption {
+    padding: 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    background-color: white;
+    transition: all 0.2s;
+}
+
+.fontOption:hover {
+    border-color: #00a884;
+}
+
+.fontOption.active {
+    border-color: #00a884;
+    background-color: #f0fdf7;
+}
+
+.storageInfo {
+    margin-bottom: 20px;
+}
+
+.storageBar {
+    width: 100%;
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 12px 0;
+}
+
+.storageUsed {
+    height: 10px;
+    background-color: #00a884;
+    border-radius: 5px;
+    transition: width 0.3s;
+}
+
+.shortcutList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.shortcutItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+}
+
+.shortcutItem kbd {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+.helpSection {
+    margin-bottom: 20px;
+}
+
+.helpSection h4 {
+    margin: 0 0 12px 0;
+    color: #111b21;
+}
+
+.helpSection ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.helpSection li {
+    padding: 8px 0;
+    color: #54656f;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+}
+
+.helpSection li:hover {
+    color: #00a884;
+}
+
+.helpSection li:last-child {
+    border-bottom: none;
+}
+
+/*--*/
+@media (max-width: 768px) {
+    .modalContent {
+        padding: 30px 20px 20px;
+    }
+
+    .colorGrid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+
+    .settingsHeader {
+        padding: 20px;
+    }
+
+    .settingsHeader h2 {
+        font-size: 1.5rem;
+    }
+
+    .settingsContent {
+        padding: 10px;
+    }
+
+    .settingsItem {
+        padding: 12px 16px;
+    }
+}

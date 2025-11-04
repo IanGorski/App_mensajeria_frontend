@@ -1,0 +1,547 @@
+.messageComposer {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  background-color: #f0f2f5;
+  border-top: 1px solid #e1e8ed;
+  gap: 8px;
+  min-height: 60px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.leftButtons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.inputContainer {
+  flex: 1;
+  position: relative;
+  min-height: 40px;
+  background-color: #ffffff;
+  border-radius: 24px;
+  padding: 0 12px;
+  box-shadow: 0 1px 3px rgba(11, 20, 26, 0.13);
+  border: 1px solid #e9edef;
+}
+
+.messageInput {
+  width: 100%;
+  min-height: 40px;
+  max-height: 120px;
+  padding: 9px 0 11px 0;
+  border: none;
+  outline: none;
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.4;
+  background: transparent;
+  resize: none;
+  color: #111b21;
+  box-sizing: border-box;
+}
+
+.messageInput::placeholder {
+  color: #8696a0;
+  font-size: 15px;
+}
+
+.sendButton {
+  background-color: #00a884;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 20px;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.sendButton:hover {
+  background-color: #008f6e;
+}
+
+.sendButton:disabled {
+  background-color: #8696a0;
+  cursor: not-allowed;
+}
+
+.attachButton,
+.emojiButton {
+  background: none;
+  border: none;
+  color: #54656f;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.18s, color 0.18s;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  outline: none;
+  box-shadow: none;
+}
+
+.attachButton:hover,
+.emojiButton:hover {
+  background-color: #f5f6f6;
+}
+
+.attachButton:active,
+.emojiButton:active {
+  background-color: #e9edef;
+  color: #00a884;
+}
+
+.attachButton:focus,
+.emojiButton:focus,
+.sendButton:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.messageForm {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+}
+
+/*---*/
+@media (max-width: 320px) {
+  .messageComposer {
+    padding: 6px 8px;
+    gap: 4px;
+    min-height: 50px;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+  }
+
+  .leftButtons {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .inputContainer {
+    flex: 1;
+    position: relative;
+    min-height: 32px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 0 8px;
+    box-shadow: 0 1px 2px rgba(11, 20, 26, 0.1);
+    border: 1px solid #e9edef;
+  }
+
+  .messageInput {
+    width: 100%;
+    min-height: 32px;
+    max-height: 80px;
+    padding: 6px 0;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: 11px;
+    line-height: 1.2;
+    background: transparent;
+    resize: none;
+    color: #111b21;
+    box-sizing: border-box;
+  }
+
+  .messageInput::placeholder {
+    color: #8696a0;
+    font-size: 11px;
+  }
+
+  .sendButton {
+    background-color: #00a884;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  .sendButton:hover {
+    background-color: #008f6e;
+  }
+
+  .sendButton:disabled {
+    background-color: #8696a0;
+    cursor: not-allowed;
+  }
+
+  .attachButton,
+  .emojiButton {
+    background: none;
+    border: none;
+    color: #54656f;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    transition: background-color 0.18s, color 0.18s;
+    font-size: 12px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    outline: none;
+    box-shadow: none;
+  }
+
+  .attachButton:hover,
+  .emojiButton:hover {
+    background-color: #f5f6f6;
+  }
+
+  .attachButton:active,
+  .emojiButton:active {
+    background-color: #e9edef;
+    color: #00a884;
+  }
+}
+
+/*---*/
+@media (min-width: 321px) and (max-width: 480px) {
+  .messageComposer {
+    padding: 8px 10px;
+    gap: 6px;
+    min-height: 55px;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+  }
+
+  .leftButtons {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .inputContainer {
+    flex: 1;
+    position: relative;
+    min-height: 36px;
+    background-color: #ffffff;
+    border-radius: 18px;
+    padding: 0 10px;
+    box-shadow: 0 1px 2px rgba(11, 20, 26, 0.1);
+    border: 1px solid #e9edef;
+  }
+
+  .messageInput {
+    width: 100%;
+    min-height: 36px;
+    max-height: 90px;
+    padding: 8px 0;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: 12px;
+    line-height: 1.3;
+    background: transparent;
+    resize: none;
+    color: #111b21;
+    box-sizing: border-box;
+  }
+
+  .messageInput::placeholder {
+    color: #8696a0;
+    font-size: 12px;
+  }
+
+  .sendButton {
+    background-color: #00a884;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .sendButton:hover {
+    background-color: #008f6e;
+  }
+
+  .sendButton:disabled {
+    background-color: #8696a0;
+    cursor: not-allowed;
+  }
+
+  .attachButton,
+  .emojiButton {
+    background: none;
+    border: none;
+    color: #54656f;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    transition: background-color 0.18s, color 0.18s;
+    font-size: 14px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    outline: none;
+    box-shadow: none;
+  }
+
+  .attachButton:hover,
+  .emojiButton:hover {
+    background-color: #f5f6f6;
+  }
+
+  .attachButton:active,
+  .emojiButton:active {
+    background-color: #e9edef;
+    color: #00a884;
+  }
+}
+
+/*---*/
+@media (min-width: 481px) and (max-width: 768px) {
+  .messageComposer {
+    padding: 10px 12px;
+    gap: 8px;
+    min-height: 60px;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+  }
+
+  .leftButtons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .inputContainer {
+    flex: 1;
+    position: relative;
+    min-height: 40px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 0 12px;
+    box-shadow: 0 1px 3px rgba(11, 20, 26, 0.13);
+    border: 1px solid #e9edef;
+  }
+
+  .messageInput {
+    width: 100%;
+    min-height: 40px;
+    max-height: 100px;
+    padding: 10px 0;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.4;
+    background: transparent;
+    resize: none;
+    color: #111b21;
+    box-sizing: border-box;
+  }
+
+  .messageInput::placeholder {
+    color: #8696a0;
+    font-size: 13px;
+  }
+
+  .sendButton {
+    background-color: #00a884;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .sendButton:hover {
+    background-color: #008f6e;
+  }
+
+  .sendButton:disabled {
+    background-color: #8696a0;
+    cursor: not-allowed;
+  }
+
+  .attachButton,
+  .emojiButton {
+    background: none;
+    border: none;
+    color: #54656f;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.18s, color 0.18s;
+    font-size: 16px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    outline: none;
+    box-shadow: none;
+  }
+
+  .attachButton:hover,
+  .emojiButton:hover {
+    background-color: #f5f6f6;
+  }
+
+  .attachButton:active,
+  .emojiButton:active {
+    background-color: #e9edef;
+    color: #00a884;
+  }
+}
+
+/*--*/
+@media (min-width: 769px) {
+  .messageComposer {
+    padding: 10px 16px;
+    gap: 10px;
+    min-height: 60px;
+  }
+
+  .leftButtons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .inputContainer {
+    flex: 1;
+    position: relative;
+    min-height: 40px;
+    background-color: #ffffff;
+    border-radius: 24px;
+    padding: 0 12px;
+    box-shadow: 0 1px 3px rgba(11, 20, 26, 0.13);
+    border: 1px solid #e9edef;
+  }
+
+  .messageInput {
+    width: 100%;
+    min-height: 40px;
+    max-height: 120px;
+    padding: 9px 0 11px 0;
+    border: none;
+    outline: none;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.4;
+    background: transparent;
+    resize: none;
+    color: #111b21;
+    box-sizing: border-box;
+  }
+
+  .messageInput::placeholder {
+    color: #8696a0;
+    font-size: 15px;
+  }
+
+  .sendButton {
+    background-color: #00a884;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 20px;
+    flex-shrink: 0;
+    margin-left: 8px;
+  }
+
+  .sendButton:hover {
+    background-color: #008f6e;
+  }
+
+  .sendButton:disabled {
+    background-color: #8696a0;
+    cursor: not-allowed;
+  }
+
+  .attachButton,
+  .emojiButton {
+    background: none;
+    border: none;
+    color: #54656f;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.18s, color 0.18s;
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    outline: none;
+    box-shadow: none;
+  }
+
+  .attachButton:hover,
+  .emojiButton:hover {
+    background-color: #f5f6f6;
+  }
+
+  .attachButton:active,
+  .emojiButton:active {
+    background-color: #e9edef;
+    color: #00a884;
+  }
+
+  .attachButton:focus,
+  .emojiButton:focus,
+  .sendButton:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}

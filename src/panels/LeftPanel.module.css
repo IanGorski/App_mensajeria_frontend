@@ -1,0 +1,332 @@
+.leftPanel {
+  width: 400px;
+  max-width: 400px;
+  min-width: 400px;
+  background-color: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh; 
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.header {
+  background-color: #f0f2f5;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e2e8f0;
+  min-height: 70px;
+}
+
+.userProfile {
+  display: flex;
+  align-items: center;
+}
+
+.userProfile h2 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 600;
+  color: #111b21;
+}
+
+.headerActions {
+  display: flex;
+  gap: 16px;
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  color: #54656f;
+  transition: background-color 0.18s, color 0.18s;
+  outline: none;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionButton:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.actionButton:active {
+  background-color: #e9edef;
+  color: #00a884;
+  box-shadow: none;
+}
+
+.actionButton:hover {
+  background-color: #3c4144;
+  color: #aebac1;
+  transition: background-color 0.18s, color 0.18s;
+}
+
+.searchContainer {
+  padding: 8px 12px;
+  background-color: #f0f2f5;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.contactsList {
+  flex: 1;
+  overflow-y: auto;
+  background-color: #ffffff;
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #667781;
+  font-style: italic;
+}
+
+/* Scrollbar personalizada */
+.contactsList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.contactsList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.contactsList::-webkit-scrollbar-thumb {
+  background-color: #0c293b;
+  border-radius: 3px;
+}
+
+.contactsList::-webkit-scrollbar-thumb:hover {
+  background-color: #667781;
+}
+
+/*--*/
+@media (max-width: 320px) {
+  .leftPanel {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    border-right: none;
+    position: relative;
+    z-index: 10;
+  }
+
+  .header {
+    padding: 8px 12px;
+    min-height: 50px;
+  }
+
+  .userProfile h2 {
+    font-size: 14px;
+  }
+
+  .headerActions {
+    gap: 8px;
+  }
+
+  .actionButton {
+    font-size: 16px;
+    padding: 4px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .searchContainer {
+    padding: 4px 8px;
+  }
+
+  .contactsList {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/*--*/
+@media (min-width: 321px) and (max-width: 480px) {
+  .leftPanel {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    border-right: none;
+    position: relative;
+    z-index: 10;
+  }
+
+  .header {
+    padding: 10px 14px;
+    min-height: 55px;
+  }
+
+  .userProfile h2 {
+    font-size: 15px;
+  }
+
+  .headerActions {
+    gap: 10px;
+  }
+
+  .actionButton {
+    font-size: 17px;
+    padding: 5px;
+    width: 34px;
+    height: 34px;
+  }
+
+  .searchContainer {
+    padding: 5px 10px;
+  }
+
+  .contactsList {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/*--*/
+@media (min-width: 481px) and (max-width: 768px) {
+  .leftPanel {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    border-right: none;
+    position: relative;
+    z-index: 10;
+  }
+
+  .header {
+    padding: 12px 16px;
+    min-height: 60px;
+  }
+
+  .userProfile h2 {
+    font-size: 16px;
+  }
+
+  .headerActions {
+    gap: 12px;
+  }
+
+  .actionButton {
+    font-size: 18px;
+    padding: 6px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .searchContainer {
+    padding: 6px 12px;
+  }
+
+  .contactsList {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/*--*/
+@media (min-width: 769px) and (max-width: 1024px) {
+  .leftPanel {
+    width: 350px;
+    max-width: 350px;
+    min-width: 350px;
+  }
+
+  .header {
+    padding: 15px 19px;
+    min-height: 68px;
+  }
+
+  .userProfile h2 {
+    font-size: 18px;
+  }
+}
+
+/*--*/
+@media (min-width: 1025px) {
+  .leftPanel {
+    width: 400px;
+    max-width: 400px;
+    min-width: 400px;
+  }
+}
+
+/* Estilos para el menú contextual */
+.contextMenu {
+  position: absolute;
+  width: 200px; 
+  padding: 8px 0;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  z-index: 1000;
+  margin: 0;
+  overflow: hidden;
+}
+
+.contextMenu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.contextMenu li {
+  font-size: 14px;
+  padding: 8px 16px; 
+  cursor: pointer;
+  color: #111b21;
+  transition: background-color 0.2s;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contextMenu li:hover {
+  background-color: #f0f2f5;
+}
+
+.menuItemWithSubmenu {
+  position: relative;
+}
+
+.subMenu {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 8px 0;
+  width: 180px;
+  z-index: 1001;
+  list-style: none;
+  margin: 0;
+}
+
+.subMenuItem {
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #111b21;
+  transition: background-color 0.2s;
+}
+
+.subMenuItem:hover {
+  background-color: #f0f2f5;
+}
