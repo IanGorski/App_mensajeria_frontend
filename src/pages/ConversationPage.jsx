@@ -31,8 +31,8 @@ const ConversationPage = () => {
     // Buscar conversación por ID (memorizado)
     const currentConversation = useMemo(() => {
         if (!id || conversations.length === 0) return null;
-        const conversationId = parseInt(id);
-        return conversations.find(conv => conv.id === conversationId) || null;
+        // Comparar como strings ya que MongoDB devuelve ObjectIds como strings
+        return conversations.find(conv => String(conv.id) === String(id)) || null;
     }, [id, conversations]);
 
     // Encontrar la conversación por ID cuando se carga la página o cambia el ID

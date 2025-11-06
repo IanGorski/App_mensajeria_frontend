@@ -1,39 +1,52 @@
-const API_URL = import.meta.env.VITE_API_URL;
+import { API_BASE_URL, AUTH_STRATEGY } from '../components/config/constants';
+import { getToken } from '../utils/tokenStorage';
 
 class ApiService {
     constructor() {
-        this.baseURL = API_URL;
+        this.baseURL = API_BASE_URL;
     }
 
     getAuthHeaders() {
-        const token = localStorage.getItem('token');
+        if (AUTH_STRATEGY === 'cookie') {
+            return { 'Content-Type': 'application/json' };
+        }
+        const token = getToken();
         return {
             'Content-Type': 'application/json',
-            ...(token && { 'Authorization': `Bearer ${token}` })
+            ...(token && { Authorization: `Bearer ${token}` }),
         };
     }
 
     async request(endpoint, options = {}) {
+        if (!this.baseURL) {
+            throw new Error('API_BASE_URL no configurado. Defina VITE_API_URL.');
+        }
         const url = `${this.baseURL}${endpoint}`;
         const config = {
             ...options,
             headers: {
                 ...this.getAuthHeaders(),
-                ...options.headers
-            }
+                ...options.headers,
+            },
+            // Para cookies HttpOnly
+            ...(AUTH_STRATEGY === 'cookie' ? { credentials: 'include' } : {}),
         };
 
         try {
             const response = await fetch(url, config);
-            const data = await response.json();
+            // Si no hay contenido
+            const isJson = response.headers.get('content-type')?.includes('application/json');
+            const data = isJson ? await response.json() : await response.text();
 
             if (!response.ok) {
-                throw new Error(data.message || 'Error en la petición');
+                const message = (isJson ? data?.message : data) || 'Error en la petición';
+                throw new Error(message);
             }
 
             return data;
         } catch (error) {
-            console.error('API Error:', error);
+            // Reducir exposición de detalles en consola
+            console.error('API request error');
             throw error;
         }
     }

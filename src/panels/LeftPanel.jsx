@@ -4,6 +4,7 @@ import styles from './LeftPanel.module.css';
 import SearchBar from '../ui/SearchBar';
 import UserCard from '../ui/UserCard';
 import { useAppContext } from '../context/AppContext';
+import { useUserStatus } from '../hooks/useUserStatus';
 import ChatIcon from '@mui/icons-material/Chat';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
@@ -11,6 +12,7 @@ const LeftPanel = ({ conversations = [] }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
   const { handleSelectContact, isMobile } = useAppContext();
+  const { isUserOnline } = useUserStatus();
 
   // Ordenar conversaciones: fijadas primero, luego por timestamp
   const sortedConversations = [...conversations]
@@ -22,7 +24,12 @@ const LeftPanel = ({ conversations = [] }) => {
       
       // Si ambas están fijadas o ambas no están fijadas, ordenar por timestamp
       return (b.lastMessageTimestamp || 0) - (a.lastMessageTimestamp || 0);
-    });
+    })
+    .map(conv => ({
+      ...conv,
+      // Si es chat privado, actualizar estado online en tiempo real
+      isOnline: conv.isGroup ? false : (isUserOnline(conv.otherUserId) || conv.online)
+    }));
 
   const filteredContacts = sortedConversations.filter(contact =>
     contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||

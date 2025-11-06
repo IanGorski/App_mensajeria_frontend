@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './ConversationPanel.module.css';
 import MessageList from '../ui/MessageList';
@@ -11,14 +11,73 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useAppContext } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
+import { useRealtimeMessages } from '../hooks/useRealtimeMessages';
+import { useTypingIndicator } from '../hooks/useTypingIndicator';
+import { useUserStatus } from '../hooks/useUserStatus';
 
-const ConversationPanel = ({ activeConversation, onSendMessage, onDeleteMessage }) => {
+const ConversationPanel = ({ activeConversation, onDeleteMessage }) => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { isMobile, handleDeselectContact } = useAppContext();
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
   const [totalMatches, setTotalMatches] = useState(0);
+  
+  //Hooks para mensajería en tiempo real
+  const {
+    messages: realtimeMessages,
+    setMessages,
+    sendMessage: sendRealtimeMessage,
+    startTyping,
+    stopTyping,
+    markAsRead
+  } = useRealtimeMessages(activeConversation?.id);
+
+  const { isTyping, typingText } = useTypingIndicator(activeConversation?.id);
+  const { getUserStatus, isUserOnline } = useUserStatus();
+  
+  const typingTimeoutRef = useRef(null);
+
+  // Sincronizar mensajes del contexto con mensajes en tiempo real
+  useEffect(() => {
+    if (activeConversation?.messages) {
+      setMessages(activeConversation.messages);
+    }
+  }, [activeConversation?.id, activeConversation?.messages, setMessages]);
+
+  // Marcar mensajes como leídos al abrir el chat
+  useEffect(() => {
+    if (activeConversation?.id) {
+      markAsRead();
+    }
+  }, [activeConversation?.id, markAsRead]);
+
+  // Obtener estado del usuario (online/offline)
+  const userStatus = !activeConversation?.isGroup && activeConversation?.otherUserId
+    ? getUserStatus(activeConversation.otherUserId)
+    : null;
+
+  const isOnline = !activeConversation?.isGroup && activeConversation?.otherUserId
+    ? isUserOnline(activeConversation.otherUserId)
+    : false;
+
+  const formatLastConnection = (date) => {
+    if (!date) return 'hace mucho tiempo';
+    const now = new Date();
+    const lastConn = new Date(date);
+    const diffMinutes = Math.floor((now - lastConn) / (1000 * 60));
+
+    if (diffMinutes < 1) return 'hace un momento';
+    if (diffMinutes < 60) return `hace ${diffMinutes} min`;
+    
+    const diffHours = Math.floor(diffMinutes / 60);
+    if (diffHours < 24) return `hace ${diffHours}h`;
+    
+    const diffDays = Math.floor(diffHours / 24);
+    return `hace ${diffDays}d`;
+  };
 
   const handleBackClick = () => {
     handleDeselectContact();
@@ -26,16 +85,33 @@ const ConversationPanel = ({ activeConversation, onSendMessage, onDeleteMessage 
   };
 
   const handleSendMessage = (messageContent) => {
-    const newMessage = {
-      id: Date.now(),
-      sender: "You",
-      content: messageContent,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      isOwn: true
-    };
+    // debug solo en dev
+    // logger.debug('Enviando mensaje desde ConversationPanel:', { chatId: activeConversation?.id, content: messageContent });
     
-    if (onSendMessage) {
-      onSendMessage(newMessage);
+    // Enviar mensaje por Socket.IO en tiempo real
+    sendRealtimeMessage(messageContent);
+  };
+
+  const handleInputChange = (isTyping) => {
+    if (isTyping) {
+      // Usuario está escribiendo
+      startTyping();
+      
+      // Limpiar timeout anterior
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+      
+      // Después de 3 segundos sin escribir, enviar stopTyping
+      typingTimeoutRef.current = setTimeout(() => {
+        stopTyping();
+      }, 3000);
+    } else {
+      // Usuario dejó de escribir
+      stopTyping();
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
     }
   };
 
@@ -82,9 +158,38 @@ const ConversationPanel = ({ activeConversation, onSendMessage, onDeleteMessage 
     }
   };
 
-  // Función simple para filtrar mensajes
+  // Función para obtener los mensajes a mostrar (mezclando tiempo real con existentes)
   const getMessagesToShow = () => {
-    return activeConversation?.messages || [];
+    // Combinar mensajes existentes con mensajes en tiempo real
+    const existingMessages = (activeConversation?.messages || []).map(msg => ({
+      ...msg,
+      id: msg._id || msg.id,
+      _id: msg._id || msg.id,
+      timestamp: msg.timestamp || new Date(msg.created_at).toLocaleTimeString([], { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      }),
+      isOwn: user && (msg.sender_id?._id === user.id || msg.sender_id === user.id),
+      sender: msg.sender_id?.name || msg.sender || 'Unknown'
+    }));
+    
+    const allMessages = [...existingMessages, ...realtimeMessages];
+    
+    // Eliminar duplicados por _id o id
+    const uniqueMessages = allMessages.reduce((acc, msg) => {
+      const msgId = msg._id || msg.id;
+      if (!acc.some(m => (m._id || m.id) === msgId)) {
+        acc.push(msg);
+      }
+      return acc;
+    }, []);
+    
+    // Ordenar por fecha
+    return uniqueMessages.sort((a, b) => {
+      const dateA = new Date(a.created_at || a.timestamp);
+      const dateB = new Date(b.created_at || b.timestamp);
+      return dateA - dateB;
+    });
   };
 
   // STUB: Funcionalidad pendiente de implementación
@@ -132,7 +237,16 @@ const ConversationPanel = ({ activeConversation, onSendMessage, onDeleteMessage 
           </div>
           <div className={styles.contactDetails}>
             <h3>{activeConversation.name}</h3>
-            <p className={styles.status}>{activeConversation.status || 'en línea'}</p>
+            <p className={styles.status}>
+              {isTyping && typingText 
+                ? <em>{typingText}</em>
+                : isOnline 
+                  ? 'conectado' 
+                  : userStatus?.last_connection 
+                    ? `Última vez ${formatLastConnection(userStatus.last_connection)}`
+                    : 'desconectado'
+              }
+            </p>
           </div>
         </div>
         <div className={styles.headerActions}>
@@ -206,16 +320,12 @@ const ConversationPanel = ({ activeConversation, onSendMessage, onDeleteMessage 
         currentMatchIndex={currentMatchIndex}
         onDeleteMessage={onDeleteMessage}
         activeConversation={activeConversation}
+        emptyStateMessage="No hay mensajes aún"
       />
-      {/* Mostrar último mensaje si no hay mensajes */}
-      {getMessagesToShow().length === 0 && (
-        <div className={styles.emptyState}>
-          <p>{activeConversation?.lastMessage || "No hay mensajes aún"}</p>
-        </div>
-      )}
       <MessageComposer 
         onSendMessage={handleSendMessage} 
         conversationId={activeConversation?.id}
+        onTypingChange={handleInputChange}
       />
       </div>
       {!isMobile && <div className={styles.rightFranja}></div>}

@@ -1,17 +1,21 @@
-import { API_BASE_URL } from '../components/config/constants';
+import { API_BASE_URL, AUTH_STRATEGY } from '../components/config/constants';
+import { getToken } from '../utils/tokenStorage';
 
 class UploadService {
     async uploadFile(file) {
         const formData = new FormData();
         formData.append('file', file);
 
-        const token = localStorage.getItem('token');
+        const token = AUTH_STRATEGY === 'cookie' ? null : getToken();
 
-        const response = await fetch(`${API_BASE_URL}/upload`, {
+        if (!API_BASE_URL) throw new Error('API_BASE_URL no configurado');
+
+        const response = await fetch(`${API_BASE_URL.replace(/\/api$/, '')}/api/upload`, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${token}`
+                ...(token && { 'Authorization': `Bearer ${token}` })
             },
+            ...(AUTH_STRATEGY === 'cookie' ? { credentials: 'include' } : {}),
             body: formData
         });
 

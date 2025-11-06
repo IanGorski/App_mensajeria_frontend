@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { SocketProvider } from './context/SocketContext';
 import Sidebar from './components/Sidebar';
 import ChatPage from './pages/ChatPage';
 import ConversationPage from './pages/ConversationPage';
@@ -12,6 +13,7 @@ import ArchivedChatsPage from './pages/ArchivedChatsPage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import './App.css';
+import ErrorBoundary from './components/ErrorBoundary';
 
 function AppContent() {
   const location = useLocation();
@@ -74,11 +76,15 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
-      <AppProvider>
-        <Router>
-          <AppContent />
-        </Router>
-      </AppProvider>
+      <SocketProvider>
+        <AppProvider>
+          <Router>
+            <ErrorBoundary>
+              <AppContent />
+            </ErrorBoundary>
+          </Router>
+        </AppProvider>
+      </SocketProvider>
     </AuthProvider>
   );
 }

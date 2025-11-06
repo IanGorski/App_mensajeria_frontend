@@ -8,21 +8,51 @@ import ContextMenu from './ContextMenu';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import TextFormatIcon from '@mui/icons-material/TextFormat';
 
-const MessageComposer = ({ onSendMessage, conversationId }) => {
+const MessageComposer = ({ onSendMessage, conversationId, onTypingChange }) => {
   const [message, setMessage] = useState('');
   const [contextMenu, setContextMenu] = useState({ isOpen: false, x: 0, y: 0 });
   const inputRef = useRef(null);
+  const typingTimeoutRef = useRef(null);
 
   // Limpiar el input cuando cambie la conversación
   useEffect(() => {
     setMessage('');
   }, [conversationId]);
 
+  const handleMessageChange = (e) => {
+    const newMessage = e.target.value;
+    setMessage(newMessage);
+
+    // Notificar que el usuario está escribiendo
+    if (onTypingChange) {
+      onTypingChange(newMessage.length > 0);
+      
+      // Después de 3 segundos sin escribir, enviar que dejó de escribir
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+      
+      typingTimeoutRef.current = setTimeout(() => {
+        onTypingChange(false);
+      }, 3000);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (message.trim()) {
       onSendMessage(message.trim());
       setMessage('');
+      
+      // Notificar que dejó de escribir
+      if (onTypingChange) {
+        onTypingChange(false);
+      }
+      
+      // Limpiar timeout
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
     }
   };
 
@@ -90,7 +120,7 @@ const MessageComposer = ({ onSendMessage, conversationId }) => {
             ref={inputRef}
             type="text"
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={handleMessageChange}
             onKeyDown={handleKeyDown}
             onContextMenu={handleContextMenu}
             placeholder="Escribe un mensaje"

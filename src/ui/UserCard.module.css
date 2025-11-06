@@ -26,6 +26,19 @@
   color: white;
   font-weight: bold;
   font-size: 18px;
+  position: relative;
+}
+
+.onlineIndicator {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  background-color: #00a884;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  z-index: 1;
 }
 
 .avatarImage {

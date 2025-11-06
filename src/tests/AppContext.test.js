@@ -4,9 +4,9 @@ import { createMockConversation, createMockMessage, isValidConversation, isValid
 describe('AppContext - Gestión de Conversaciones', () => {
   
   describe('handleSelectContact', () => {
-    /**
-     * Test: Debe seleccionar un contacto correctamente
-     * Valida que la función actualiza el estado con la conversación seleccionada
+    /*
+      Test: Debe seleccionar un contacto correctamente
+      Valida que la función actualiza el estado con la conversación seleccionada
      */
     test('debe seleccionar un contacto y actualizar activeConversation', () => {
       const mockContact = createMockConversation({ id: 1, name: 'John Doe' });
@@ -27,9 +27,9 @@ describe('AppContext - Gestión de Conversaciones', () => {
       expect(isValidConversation(activeConversation)).toBe(true);
     });
 
-    /**
-     * Test: No debe actualizar si ya es la conversación activa
-     * Optimización para evitar re-renderizados innecesarios
+    /*
+      Test: No debe actualizar si ya es la conversación activa
+      Optimización para evitar re-renderizados innecesarios
      */
     test('no debe actualizar si el contacto ya está seleccionado', () => {
       const mockContact = createMockConversation({ id: 1 });
@@ -53,8 +53,8 @@ describe('AppContext - Gestión de Conversaciones', () => {
 
   describe('handleSendMessage', () => {
     /**
-     * Test: Debe crear y agregar un nuevo mensaje
-     * Valida la estructura del mensaje creado
+      Test: Debe crear y agregar un nuevo mensaje
+      Valida la estructura del mensaje creado
      */
     test('debe crear un mensaje con la estructura correcta', () => {
       const messageContent = 'Hola mundo';
@@ -71,8 +71,8 @@ describe('AppContext - Gestión de Conversaciones', () => {
     });
 
     /**
-     * Test: Debe actualizar lastMessage en la conversación
-     * Asegura que la lista de chats se actualiza correctamente
+      Test: Debe actualizar lastMessage en la conversación
+      Asegura que la lista de chats se actualiza correctamente
      */
     test('debe actualizar lastMessage de la conversación', () => {
       const conversation = createMockConversation({ id: 1 });
@@ -89,8 +89,8 @@ describe('AppContext - Gestión de Conversaciones', () => {
 
   describe('handleDeleteMessage', () => {
     /**
-     * Test: Debe eliminar un mensaje correctamente
-     * Valida que el array de mensajes se actualiza
+      Test: Debe eliminar un mensaje correctamente
+      Valida que el array de mensajes se actualiza
      */
     test('debe eliminar un mensaje del array de mensajes', () => {
       const conversation = createMockConversation({
@@ -113,8 +113,8 @@ describe('AppContext - Gestión de Conversaciones', () => {
     });
 
     /**
-     * Test: Debe actualizar lastMessage después de eliminar
-     * Asegura que se muestra el último mensaje restante
+      Test: Debe actualizar lastMessage después de eliminar
+      Asegura que se muestra el último mensaje restante
      */
     test('debe actualizar lastMessage al eliminar el último mensaje', () => {
       const messages = [
@@ -134,8 +134,8 @@ describe('AppContext - Gestión de Conversaciones', () => {
 
   describe('handleArchiveConversation', () => {
     /**
-     * Test: Debe archivar una conversación
-     * Valida el cambio de estado isArchived
+      Test: Debe archivar una conversación
+      Valida el cambio de estado isArchived
      */
     test('debe marcar una conversación como archivada', () => {
       const conversation = createMockConversation({ id: 1, isArchived: false });
@@ -148,8 +148,8 @@ describe('AppContext - Gestión de Conversaciones', () => {
 
   describe('handleUnarchiveConversation', () => {
     /**
-     * Test: Debe desarchivar una conversación
-     * Valida el cambio de estado isArchived
+      Test: Debe desarchivar una conversación
+      Valida el cambio de estado isArchived
      */
     test('debe marcar una conversación como no archivada', () => {
       const conversation = createMockConversation({ id: 1, isArchived: true });
@@ -162,8 +162,8 @@ describe('AppContext - Gestión de Conversaciones', () => {
 
   describe('markAsRead / markAsUnread', () => {
     /**
-     * Test: Debe marcar un chat como leído
-     * Valida el cambio de estado isUnread
+      Test: Debe marcar un chat como leído
+      Valida el cambio de estado isUnread
      */
     test('debe marcar un chat como leído', () => {
       const conversation = createMockConversation({ id: 1, isUnread: true });
@@ -174,8 +174,8 @@ describe('AppContext - Gestión de Conversaciones', () => {
     });
 
     /**
-     * Test: Debe marcar un chat como no leído
-     * Valida el cambio de estado isUnread
+      Test: Debe marcar un chat como no leído
+      Valida el cambio de estado isUnread
      */
     test('debe marcar un chat como no leído', () => {
       const conversation = createMockConversation({ id: 1, isUnread: false });
@@ -188,8 +188,8 @@ describe('AppContext - Gestión de Conversaciones', () => {
 
   describe('handlePinConversation / handleUnpinConversation', () => {
     /**
-     * Test: Debe fijar una conversación
-     * Valida el cambio de estado isPinned
+      Test: Debe fijar una conversación
+      Valida el cambio de estado isPinned
      */
     test('debe fijar una conversación', () => {
       const conversation = createMockConversation({ id: 1, isPinned: false });
@@ -200,8 +200,8 @@ describe('AppContext - Gestión de Conversaciones', () => {
     });
 
     /**
-     * Test: Debe desfijar una conversación
-     * Valida el cambio de estado isPinned
+      Test: Debe desfijar una conversación
+      Valida el cambio de estado isPinned
      */
     test('debe desfijar una conversación', () => {
       const conversation = createMockConversation({ id: 1, isPinned: true });
@@ -214,8 +214,8 @@ describe('AppContext - Gestión de Conversaciones', () => {
 
   describe('handleClearConversation', () => {
     /**
-     * Test: Debe vaciar todos los mensajes de una conversación
-     * Valida que el array de mensajes queda vacío
+      Test: Debe vaciar todos los mensajes de una conversación
+      Valida que el array de mensajes queda vacío
      */
     test('debe vaciar todos los mensajes de una conversación', () => {
       const conversation = createMockConversation({
@@ -235,8 +235,8 @@ describe('AppContext - Gestión de Conversaciones', () => {
 
   describe('handleDeleteConversation', () => {
     /**
-     * Test: Debe eliminar una conversación completamente
-     * Valida que la conversación se elimina del array
+      Test: Debe eliminar una conversación completamente
+      Valida que la conversación se elimina del array
      */
     test('debe eliminar una conversación del array', () => {
       const conversations = [
@@ -260,8 +260,8 @@ describe('AppContext - Gestión de Estado Móvil', () => {
   
   describe('isMobile detection', () => {
     /**
-     * Test: Debe detectar correctamente el modo móvil
-     * Valida la detección basada en window.innerWidth
+      Test: Debe detectar correctamente el modo móvil
+      Valida la detección basada en window.innerWidth
      */
     test('debe retornar true cuando innerWidth <= 768', () => {
       const checkMobile = (width) => width <= 768;
@@ -274,8 +274,8 @@ describe('AppContext - Gestión de Estado Móvil', () => {
 
   describe('showChatList management', () => {
     /**
-     * Test: Debe alternar showChatList en móvil
-     * Valida el comportamiento de navegación en móvil
+      Test: Debe alternar showChatList en móvil
+      Valida el comportamiento de navegación en móvil
      */
     test('debe ocultar lista de chats al seleccionar contacto en móvil', () => {
       const isMobile = true;
@@ -290,8 +290,8 @@ describe('AppContext - Gestión de Estado Móvil', () => {
     });
 
     /**
-     * Test: Debe mostrar lista de chats al deseleccionar en móvil
-     * Valida el comportamiento de navegación hacia atrás
+      Test: Debe mostrar lista de chats al deseleccionar en móvil
+      Valida el comportamiento de navegación hacia atrás
      */
     test('debe mostrar lista de chats al deseleccionar contacto en móvil', () => {
       const isMobile = true;

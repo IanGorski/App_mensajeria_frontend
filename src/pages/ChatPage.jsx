@@ -13,7 +13,6 @@ const ChatPage = () => {
         activeConversation,
         isMobile,
         showChatList,
-        handleSendMessage,
         handleDeleteMessage,
         handleDeselectContact
     } = useAppContext();
@@ -38,7 +37,6 @@ const ChatPage = () => {
                 {!showChatList && activeConversation && (
                     <ConversationPanel
                         activeConversation={activeConversation}
-                        onSendMessage={handleSendMessage}
                         onDeleteMessage={handleDeleteMessage}
                     />
                 )}
@@ -55,7 +53,6 @@ const ChatPage = () => {
             {activeConversation ? (
                 <ConversationPanel
                     activeConversation={activeConversation}
-                    onSendMessage={handleSendMessage}
                     onDeleteMessage={handleDeleteMessage}
                 />
             ) : (

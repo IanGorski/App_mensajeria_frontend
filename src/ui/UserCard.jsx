@@ -227,6 +227,10 @@ const UserCard = ({ user, onClick, isChat = false, disableContextMenu = false })
           ) : (
             getInitials(user?.name) || 'U'
           )}
+          {/* Indicador de estado online */}
+          {isChat && user?.isOnline && (
+            <div className={styles.onlineIndicator} title="En línea"></div>
+          )}
         </div>
         <div className={styles.userInfo}>
           <div className={styles.topRow}>
@@ -237,7 +241,11 @@ const UserCard = ({ user, onClick, isChat = false, disableContextMenu = false })
                   <PushPinIcon sx={{ fontSize: 18, color: '#54656f' }} />
                 </span>
               )}
-              {isChat && <span className={styles.time}>{user?.time}</span>}
+              {isChat && (
+                <span className={styles.time}>
+                  {user?.time ? new Date(user.time).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }) : ''}
+                </span>
+              )}
             </div>
           </div>
           <div className={styles.bottomRow}>

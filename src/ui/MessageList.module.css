@@ -130,6 +130,24 @@
   color: #53bdeb;
 }
 
+.pendingCheck {
+  font-size: 10px;
+  color: #8696a0; 
+}
+
+.spinner {
+  width: 10px;
+  height: 10px;
+  border: 2px solid #c7d1d8;
+  border-top-color: #8696a0;
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 .highlight {
   background-color: #ffeb3b;
   color: #000;

@@ -111,11 +111,51 @@
     transition: background-color 0.18s, color 0.18s;
 }
 
+/* Estado activo de los elementos del menú */
+.menuItem.active {
+    background-color: #2a3942;
+    color: #00a884;
+    position: relative;
+}
+
+.menuItem.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: #00a884;
+}
+
 .menuItem {
     display: flex;
     align-items: center;
     padding: 10px;
     cursor: pointer;
+}
+
+/* Botón de Nuevo Chat destacado */
+.newChatBtn {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    background: none;
+    color: #aebac1;
+    border-radius: 0;
+    margin: 0;
+    transition: background-color 0.18s, color 0.18s;
+}
+
+.newChatBtn:hover {
+    background-color: #3c4144;
+    color: #aebac1;
+}
+
+.newChatBtn:active {
+    background-color: #e9edef;
+    color: #00a884;
 }
 
 .menuIcon {

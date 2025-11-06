@@ -283,6 +283,17 @@ const MessageList = ({ messages = [], searchTerm = '', currentMatchIndex = 0, on
     };
   }, [touchTimer]);
 
+  // Auto-scroll al final cuando llegan nuevos mensajes o cambia la conversación (solucioné el error de scroll que tenia antes)
+  useEffect(() => {
+    if (!containerRef.current) return;
+    // Usar requestAnimationFrame para esperar al render
+    requestAnimationFrame(() => {
+      if (!containerRef.current) return; // El componente pudo desmontarse correctamente en jsdom
+      const el = containerRef.current;
+      el.scrollTop = el.scrollHeight;
+    });
+  }, [messages?.length, activeConversation?.id]);
+
   return (
     <div className={styles.messageList} ref={containerRef}>
       {messages.length === 0 ? (
@@ -351,7 +362,12 @@ const MessageList = ({ messages = [], searchTerm = '', currentMatchIndex = 0, on
                 <div className={styles.messageTime}>
                   {message.timestamp}
                   {message.isOwn && (
-                    <span className={styles.checkmarks}>✓✓</span>
+                    message.pending ? (
+                      // Indicador de envío pendiente
+                      <span className={styles.pendingCheck}>✓</span>
+                    ) : (
+                      <span className={styles.checkmarks}>✓✓</span>
+                    )
                   )}
                 </div>
               </div>

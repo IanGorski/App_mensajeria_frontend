@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAppContext } from "../context/useAppContext";
+import { useAppContext } from "../context/AppContext";
 import { useAuth } from "../context/AuthContext";
+import AddContactModal from "./AddContactModal";
 import styles from "./Sidebar.module.css";
 import ChatIcon from '@mui/icons-material/Chat';
 import BarChartIcon from '@mui/icons-material/BarChart';
@@ -11,13 +12,27 @@ import ArchiveIcon from '@mui/icons-material/Archive';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
+import AddIcon from '@mui/icons-material/Add';
+import logger from '../utils/logger';
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showAddContact, setShowAddContact] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { handleDeselectContact } = useAppContext();
+  const { handleDeselectContact, fetchConversations } = useAppContext();
   const { logout } = useAuth();
+
+  const handleContactAdded = async (chat) => {
+  logger.debug('Contacto agregado, chat creado:', chat);
+    setShowAddContact(false);
+    // Recargar la lista de chats
+    await fetchConversations();
+    // Navegar al nuevo chat
+    if (chat?.id) {
+      navigate(`/chat/${chat.id}`);
+    }
+  };
 
   const handleMenuClick = (path) => {
     // Si es el icono de chats, deseleccionar el chat activo
@@ -71,6 +86,18 @@ const Sidebar = () => {
           <ChatIcon sx={{ fontSize: 24 }} />
         </span>
         {isExpanded && <span className={styles.menuLabel}>Chats</span>}
+      </button>
+
+      {/* Nuevo Chat - Botón para agregar contactos */}
+      <button
+        className={`${styles.menuItem} ${styles.newChatBtn}`}
+        onClick={() => setShowAddContact(true)}
+        title="Nuevo Chat"
+      >
+        <span className={styles.menuIcon}>
+          <AddIcon sx={{ fontSize: 24 }} />
+        </span>
+        {isExpanded && <span className={styles.menuLabel}>Nuevo Chat</span>}
       </button>
 
       {/* Estados */}
@@ -171,6 +198,13 @@ const Sidebar = () => {
         </span>
         {isExpanded && <span className={styles.menuLabel}>Cerrar Sesión</span>}
       </button>
+
+      {/* Modal para agregar contactos */}
+      <AddContactModal
+        isOpen={showAddContact}
+        onClose={() => setShowAddContact(false)}
+        onContactAdded={handleContactAdded}
+      />
     </div>
   );
 };

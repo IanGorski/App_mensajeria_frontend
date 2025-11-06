@@ -1,17 +1,13 @@
 /**
- * Test Helpers y Utilitiesntes
- */
-
-/**
- * CreaCión de mock de conversación para testing
- * @param {Object} overrides - Propiedades personalizadas
+ * Creo un mock de conversación para testing
+ * @param {Object} overrides - Propiedades
  * @returns {Object} Conversación mock
  */
 export const createMockConversation = (overrides = {}) => {
   return {
     id: 1,
     name: "User 1",
-    avatar: "https://example.com/avatar.jpg",
+    avatar: "https://ejemplodeavatar.com/avatar.jpg",
     lastMessage: "Ultimo mensaje de pruebas",
     time: "10:30",
     isUnread: false,
@@ -30,9 +26,8 @@ export const createMockConversation = (overrides = {}) => {
 };
 
 /**
- * Crea un mock de mensaje para testing
- * @param {Object} overrides - Propiedades personalizadas
- * @returns {Object} Mensaje mock
+ * @param {Object} overrides 
+ * @returns {Object} 
  */
 export const createMockMessage = (overrides = {}) => {
   return {
@@ -40,8 +35,8 @@ export const createMockMessage = (overrides = {}) => {
     sender: "User 1",
     content: "Esto es una prueba",
     timestamp: new Date().toLocaleTimeString([], {
-      hour: "2-digitos",
-      minute: "2-digitos",
+      hour: "2-digit",
+      minute: "2-digit",
     }),
     isOwn: false,
     isRead: true,
@@ -87,8 +82,8 @@ export const createContextMenuEvent = (coords = { x: 0, y: 0 }) => {
 };
 
 /**
- * Espera un tiempo determinado (para tests asíncronos)
- * @param {number} ms - Milisegundos a esperar = ms
+ * Espera de un tiempo determinado (asíncronos)
+ * @param {number} ms - Tiempo en ms a esperar
  * @returns {Promise}
  */
 export const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
