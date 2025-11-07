@@ -33,29 +33,29 @@ export const SocketProvider = ({ children }) => {
 
             // Configurar listeners
             newSocket.on('connect', () => {
-                console.log('✅ Socket conectado en Context, ID:', newSocket.id);
+                console.log('Socket conectado en Context, ID:', newSocket.id);
                 setIsConnected(true);
             });
 
             newSocket.on('disconnect', (reason) => {
-                console.log('❌ Socket desconectado en Context. Razón:', reason);
+                console.log('Socket desconectado en Context. Razón:', reason);
                 setIsConnected(false);
             });
 
             newSocket.on('connect_error', (error) => {
-                console.error('❌ Error de conexión Socket:', error.message);
+                console.error('Error de conexión Socket:', error.message);
                 setIsConnected(false);
             });
 
             // Si ya está conectado inmediatamente, setear el socket
             if (newSocket.connected) {
-                console.log('✅ Socket ya conectado inmediatamente');
+                console.log('Socket ya conectado inmediatamente');
                 setSocket(newSocket);
                 setIsConnected(true);
             }
 
             return () => {
-                console.log('🧹 Limpiando conexión de socket');
+                console.log('Limpiando conexión de socket');
                 newSocket.off('connect');
                 newSocket.off('disconnect');
                 newSocket.off('connect_error');
@@ -70,7 +70,7 @@ export const SocketProvider = ({ children }) => {
         } else {
             // Si no hay usuario, desconectar
             if (socket) {
-                console.log('🧹 Desconectando socket (sin usuario)');
+                console.log('Desconectando socket (sin usuario)');
                 socketService.disconnect();
                 setSocket(null);
                 setIsConnected(false);
