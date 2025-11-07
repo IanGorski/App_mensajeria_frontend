@@ -19,31 +19,41 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const verifySession = async () => {
+            console.log('[AuthContext] Verificando sesión...');
             try {
                 // Estrategia cookie: verificar siempre, el servidor valida HttpOnly cookie
                 // Estrategia token: verificar solo si hay token almacenado
                 if (AUTH_STRATEGY !== 'cookie') {
                     const token = getToken();
+                    console.log('[AuthContext] Token encontrado:', !!token);
                     if (!token) {
+                        console.log('[AuthContext] No hay token, sesión no válida');
                         setLoading(false);
                         return;
                     }
                 }
 
+                console.log('[AuthContext] Verificando token con el backend...');
                 const response = await authService.verifyToken();
+                console.log('[AuthContext] Respuesta del backend:', response);
+                
                 // El backend devuelve el usuario dentro de data
                 if (response.data?.user) {
+                    console.log('[AuthContext] Usuario autenticado:', response.data.user);
                     setUser(response.data.user);
+                } else {
+                    console.log('[AuthContext] No se encontró usuario en la respuesta');
                 }
-            } catch {
+            } catch (error) {
                 // No exponer detalles en consola
-                console.warn('Sesión no válida o expirada');
+                console.error('[AuthContext] Error al verificar sesión:', error);
                 // Si usamos token, limpiarlo
                 if (AUTH_STRATEGY !== 'cookie') {
                     removeToken();
                 }
                 setUser(null);
             } finally {
+                console.log('[AuthContext] Verificación completada, loading = false');
                 setLoading(false);
             }
         };

@@ -16,12 +16,20 @@ import AddIcon from '@mui/icons-material/Add';
 import logger from '../utils/logger';
 
 const Sidebar = () => {
+  console.log('[Sidebar] Componente renderizándose');
+  
   const [isExpanded, setIsExpanded] = useState(false);
   const [showAddContact, setShowAddContact] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { handleDeselectContact, fetchConversations } = useAppContext();
   const { logout } = useAuth();
+
+  console.log('[Sidebar] Estado:', {
+    isExpanded,
+    showAddContact,
+    currentPath: location.pathname
+  });
 
   const handleContactAdded = async (chat) => {
   logger.debug('Contacto agregado, chat creado:', chat);
