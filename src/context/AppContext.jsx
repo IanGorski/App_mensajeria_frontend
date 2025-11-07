@@ -51,7 +51,7 @@ export const AppProvider = ({ children }) => {
 
     const fetchMessages = async (chatId) => {
         try {
-            logger.debug(`📥 Cargando mensajes del chat: ${chatId}`);
+            logger.debug(`Cargando mensajes del chat: ${chatId}`);
             const response = await apiService.request(`/messages/${chatId}`);
             return response.data || [];
         } catch (error) {
@@ -60,46 +60,67 @@ export const AppProvider = ({ children }) => {
         }
     };
 
-    const handleSelectContact = async (contact) => {
+    const handleSelectContact = useCallback(async (contact) => {
         if (!contact) {
-            console.error('Contacto es null o undefined');
+            console.error('[AppContext] Contacto es null o undefined');
             return;
         }
 
         if (!contact.id) {
-            console.error('Contacto sin ID:', contact);
+            console.error('[AppContext] Contacto sin ID:', contact);
             return;
         }
 
-        logger.debug('📱 Seleccionando contacto:', { id: contact?.id, name: contact?.name, otherUserId: contact?.otherUserId });
+        console.log('[AppContext] Seleccionando contacto:', { 
+            id: contact?.id, 
+            name: contact?.name, 
+            otherUserId: contact?.otherUserId 
+        });
 
         // Re-normalizar por si el objeto viene parcial o con nombres inconsistentes
         const normalized = normalizeConversation(contact, (user?._id ?? user?.id)?.toString?.());
+        
+        console.log('[AppContext] Contacto normalizado:', {
+            id: normalized.id,
+            name: normalized.name,
+            hasMessages: !!normalized.messages
+        });
 
         setSelectedContact(normalized);
 
         // Cargar los mensajes del chat
+        console.log('[AppContext] Cargando mensajes para chat:', normalized.id);
         const messages = await fetchMessages(normalized.id);
+        console.log('[AppContext] Mensajes cargados:', messages.length);
 
-        setActiveConversation({
+        const activeConv = {
             ...normalized,
             messages,
+        };
+
+        console.log('[AppContext] Actualizando activeConversation:', {
+            id: activeConv.id,
+            name: activeConv.name,
+            messageCount: activeConv.messages?.length || 0
         });
+
+        setActiveConversation(activeConv);
+        
         if (isMobile) {
             setShowChatList(false);
         }
-    };
+    }, [user, isMobile]);
 
-    const handleDeselectContact = () => {
+    const handleDeselectContact = useCallback(() => {
         setSelectedContact(null);
         setActiveConversation(null);
         if (isMobile) {
             setShowChatList(true);
         }
-    };
+    }, [isMobile]);
 
-    // Funciones de gestión de conversaciones
-    const handleMuteConversation = (chatId, duration) => {
+    // Funciones de gestión de conversaciones (con useCallback para estabilidad)
+    const handleMuteConversation = useCallback((chatId, duration) => {
         setConversations(prevConvs =>
             prevConvs.map(conv => {
                 if (conv.id === chatId) {
@@ -116,75 +137,75 @@ export const AppProvider = ({ children }) => {
                 return conv;
             })
         );
-    };
+    }, []);
 
-    const handleUnmuteConversation = (chatId) => {
+    const handleUnmuteConversation = useCallback((chatId) => {
         setConversations(prevConvs =>
             prevConvs.map(conv =>
                 conv.id === chatId ? { ...conv, muteUntil: undefined } : conv
             )
         );
-    };
+    }, []);
 
-    const handlePinConversation = (chatId) => {
+    const handlePinConversation = useCallback((chatId) => {
         setConversations(prevConvs =>
             prevConvs.map(conv =>
                 conv.id === chatId ? { ...conv, isPinned: true } : conv
             )
         );
-    };
+    }, []);
 
-    const handleUnpinConversation = (chatId) => {
+    const handleUnpinConversation = useCallback((chatId) => {
         setConversations(prevConvs =>
             prevConvs.map(conv =>
                 conv.id === chatId ? { ...conv, isPinned: false } : conv
             )
         );
-    };
+    }, []);
 
-    const handleArchiveConversation = (chatId) => {
+    const handleArchiveConversation = useCallback((chatId) => {
         setConversations(prevConvs =>
             prevConvs.map(conv =>
                 conv.id === chatId ? { ...conv, isArchived: true } : conv
             )
         );
-    };
+    }, []);
 
-    const handleDeleteConversation = (chatId) => {
+    const handleDeleteConversation = useCallback((chatId) => {
         setConversations(prevConvs =>
             prevConvs.filter(conv => conv.id !== chatId)
         );
-    };
+    }, []);
 
-    const handleClearConversation = (chatId) => {
+    const handleClearConversation = useCallback((chatId) => {
         // Limpiar mensajes pero mantener el chat
         logger.debug(`Clearing conversation ${chatId}`);
-    };
+    }, []);
 
-    const markAsUnread = (chatId) => {
+    const markAsUnread = useCallback((chatId) => {
         setConversations(prevConvs =>
             prevConvs.map(conv =>
                 conv.id === chatId ? { ...conv, isUnread: true } : conv
             )
         );
-    };
+    }, []);
 
-    const markAsRead = (chatId) => {
+    const markAsRead = useCallback((chatId) => {
         setConversations(prevConvs =>
             prevConvs.map(conv =>
                 conv.id === chatId ? { ...conv, isUnread: false } : conv
             )
         );
-    };
+    }, []);
 
-    const addNewConversation = (newConv) => {
+    const addNewConversation = useCallback((newConv) => {
         setConversations(prevConvs => [newConv, ...prevConvs]);
-    };
+    }, []);
 
-    const handleDeleteMessage = async (messageId) => {
+    const handleDeleteMessage = useCallback(async (messageId) => {
         // Esta función será manejada por el backend
         logger.debug('Eliminando mensaje:', messageId);
-    };
+    }, []);
 
     // Actualizar preview de conversación al recibir mensajes vía socket
     useEffect(() => {
