@@ -61,6 +61,16 @@ export const AppProvider = ({ children }) => {
     };
 
     const handleSelectContact = async (contact) => {
+        if (!contact) {
+            console.error('Contacto es null o undefined');
+            return;
+        }
+
+        if (!contact.id) {
+            console.error('Contacto sin ID:', contact);
+            return;
+        }
+
         logger.debug('📱 Seleccionando contacto:', { id: contact?.id, name: contact?.name, otherUserId: contact?.otherUserId });
 
         // Re-normalizar por si el objeto viene parcial o con nombres inconsistentes

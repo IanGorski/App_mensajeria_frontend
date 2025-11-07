@@ -41,6 +41,18 @@ const LeftPanel = ({ conversations = [] }) => {
   };
 
   const handleContactClick = (contact) => {
+    // Validar que el contacto tenga ID válido
+    if (!contact || !contact.id) {
+      console.error('Contacto inválido:', contact);
+      return;
+    }
+
+    console.log('Seleccionando contacto:', {
+      id: contact.id,
+      name: contact.name,
+      otherUserId: contact.otherUserId
+    });
+
     // Actualizar el contexto primero
     handleSelectContact(contact);
     
