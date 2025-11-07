@@ -35,7 +35,7 @@ class SocketService {
         });
 
         this.socket.on('connect_error', (error) => {
-            console.error('Error de conexión Socket.IO:', error.message);
+            logger.error('Error de conexión Socket.IO:', error.message);
         });
 
         return this.socket;

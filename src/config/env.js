@@ -1,6 +1,3 @@
-/* Configuración de entorno para la aplicación
- Usa variables de entorno de Vite (VITE) */
-
 const ENV = {
     // URL del backend HTTP (Express)
     API_URL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
@@ -17,10 +14,5 @@ const ENV = {
     // Flag para desarrollo
     IS_DEVELOPMENT: import.meta.env.DEV || true
 };
-
-// Log de configuración en desarrollo
-if (ENV.IS_DEVELOPMENT) {
-    console.log(' Configuración de entorno:', ENV);
-}
 
 export default ENV;

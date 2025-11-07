@@ -31,7 +31,7 @@ export const AppProvider = ({ children }) => {
                 requestStatusSync();
             }
         } catch (error) {
-            console.error("Error al cargar chats:", error);
+            logger.error("Error al cargar chats:", error);
         }
     }, [socket, isConnected, requestStatusSync, user]);
 
@@ -51,58 +51,28 @@ export const AppProvider = ({ children }) => {
 
     const fetchMessages = async (chatId) => {
         try {
-            logger.debug(`Cargando mensajes del chat: ${chatId}`);
             const response = await apiService.request(`/messages/${chatId}`);
             return response.data || [];
         } catch (error) {
-            console.error("Error al cargar mensajes:", error);
+            logger.error("Error al cargar mensajes:", error);
             return [];
         }
     };
 
     const handleSelectContact = useCallback(async (contact) => {
-        if (!contact) {
-            console.error('[AppContext] Contacto es null o undefined');
+        if (!contact || !contact.id) {
+            logger.error('[AppContext] Contacto inválido:', contact);
             return;
         }
 
-        if (!contact.id) {
-            console.error('[AppContext] Contacto sin ID:', contact);
-            return;
-        }
-
-        console.log('[AppContext] Seleccionando contacto:', { 
-            id: contact?.id, 
-            name: contact?.name, 
-            otherUserId: contact?.otherUserId 
-        });
-
-        // Re-normalizar por si el objeto viene parcial o con nombres inconsistentes
         const normalized = normalizeConversation(contact, (user?._id ?? user?.id)?.toString?.());
-        
-        console.log('[AppContext] Contacto normalizado:', {
-            id: normalized.id,
-            name: normalized.name,
-            hasMessages: !!normalized.messages
-        });
-
         setSelectedContact(normalized);
 
-        // Cargar los mensajes del chat
-        console.log('[AppContext] Cargando mensajes para chat:', normalized.id);
         const messages = await fetchMessages(normalized.id);
-        console.log('[AppContext] Mensajes cargados:', messages.length);
-
         const activeConv = {
             ...normalized,
             messages,
         };
-
-        console.log('[AppContext] Actualizando activeConversation:', {
-            id: activeConv.id,
-            name: activeConv.name,
-            messageCount: activeConv.messages?.length || 0
-        });
 
         setActiveConversation(activeConv);
         
@@ -171,6 +141,14 @@ export const AppProvider = ({ children }) => {
         );
     }, []);
 
+    const handleUnarchiveConversation = useCallback((chatId) => {
+        setConversations(prevConvs =>
+            prevConvs.map(conv =>
+                conv.id === chatId ? { ...conv, isArchived: false } : conv
+            )
+        );
+    }, []);
+
     const handleDeleteConversation = useCallback((chatId) => {
         setConversations(prevConvs =>
             prevConvs.filter(conv => conv.id !== chatId)
@@ -207,26 +185,27 @@ export const AppProvider = ({ children }) => {
         logger.debug('Eliminando mensaje:', messageId);
     }, []);
 
-    // Actualizar preview de conversación al recibir mensajes vía socket
+    // Escuchar mensajes nuevos para actualizar las conversaciones
     useEffect(() => {
-        if (!socket) return;
+        if (!socket || !user) return;
 
-        const handleReceive = (message) => {
+        const handleReceiveMessage = (message) => {
             const chatId = message.chat_id || message.chat?._id || message.chat;
-            const createdAt = message.created_at || new Date().toISOString();
-            const isOwn = (message.sender_id?._id === user?.id) || (message.sender_id === user?.id);
-            const content = message.content || '';
-
+            const isOwn = message.sender_id?._id === user.id || message.sender_id === user.id;
+            
             setConversations(prev => {
-                const idx = prev.findIndex(c => (c.id || c._id) === chatId);
-                if (idx === -1) return prev;
                 const updated = [...prev];
+                const idx = updated.findIndex(c => c.id === chatId);
+                if (idx === -1) return prev;
+                
                 const conv = { ...updated[idx] };
-                conv.lastMessage = content;
-                conv.lastMessageIsOwn = !!isOwn;
-                conv.lastMessageTimestamp = new Date(createdAt).getTime();
-                conv.time = new Date(createdAt).toISOString();
-                // Marcar como no leído si no es propio y el chat no está abierto
+                
+                // Actualizar último mensaje como cadena de texto
+                conv.lastMessage = message.content || '';
+                conv.time = message.created_at;
+                conv.lastMessageTimestamp = new Date(message.created_at).getTime();
+                
+                // Si no es propio y no está seleccionado, marcar como no leído
                 if (!isOwn && (!selectedContact || selectedContact.id !== chatId)) {
                     conv.isUnread = true;
                 }
@@ -235,9 +214,9 @@ export const AppProvider = ({ children }) => {
             });
         };
 
-        socket.on('receiveMessage', handleReceive);
-        return () => socket.off('receiveMessage', handleReceive);
-    }, [socket, user?.id, selectedContact]);
+        socket.on('receiveMessage', handleReceiveMessage);
+        return () => socket.off('receiveMessage', handleReceiveMessage);
+    }, [socket, user, selectedContact]);
 
     return (
         <AppContext.Provider value={{ 
@@ -253,13 +232,14 @@ export const AppProvider = ({ children }) => {
             handlePinConversation,
             handleUnpinConversation,
             handleArchiveConversation,
+            handleUnarchiveConversation,
             handleDeleteConversation,
             handleClearConversation,
             markAsUnread,
             markAsRead,
             addNewConversation,
-            fetchConversations,
-            handleDeleteMessage
+            handleDeleteMessage,
+            fetchConversations
         }}>
             {children}
         </AppContext.Provider>

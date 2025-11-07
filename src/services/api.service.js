@@ -1,5 +1,6 @@
 import { API_BASE_URL, AUTH_STRATEGY } from '../components/config/constants';
 import { getToken } from '../utils/tokenStorage';
+import logger from '../utils/logger';
 
 class ApiService {
     constructor() {
@@ -45,8 +46,7 @@ class ApiService {
 
             return data;
         } catch (error) {
-            // Reducir exposición de detalles en consola
-            console.error('API request error');
+            logger.error('API request error');
             throw error;
         }
     }

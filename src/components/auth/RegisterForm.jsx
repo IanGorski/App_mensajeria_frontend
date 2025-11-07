@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import authService from '../../services/auth.service';
+import logger from '../../services/logger.service';
 
 const RegisterForm = () => {
     const [form, setForm] = useState({ email: '', password: '', name: '' });
@@ -9,7 +10,7 @@ const RegisterForm = () => {
         try {
             await authService.register(form);
         } catch (error) {
-            console.error('Error al registrarse:', error);
+            logger.error('Error al registrarse:', error);
         }
     };
 

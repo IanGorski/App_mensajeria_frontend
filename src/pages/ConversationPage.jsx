@@ -31,7 +31,6 @@ const ConversationPage = () => {
     // Buscar conversación por ID (memorizado)
     const currentConversation = useMemo(() => {
         if (!id || conversations.length === 0) {
-            console.log('No hay ID o conversaciones:', { id, count: conversations.length });
             return null;
         }
 
@@ -41,13 +40,6 @@ const ConversationPage = () => {
             const paramId = String(id);
             return convId === paramId;
         });
-
-        if (!found) {
-            console.error('No se encontró conversación con ID:', id);
-            console.log('Conversaciones disponibles:', conversations.map(c => ({ id: c.id, name: c.name })));
-        } else {
-            console.log('Conversación encontrada:', { id: found.id, name: found.name });
-        }
 
         return found || null;
     }, [id, conversations]);

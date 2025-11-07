@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import apiService from '../services/api.service';
+import logger from '../services/logger.service';
 
 export const useMessages = (chatId) => {
     const [messages, setMessages] = useState([]);
@@ -11,7 +12,7 @@ export const useMessages = (chatId) => {
             const response = await apiService.request(`/messages/${chatId}`);
             setMessages(response.data);
         } catch (error) {
-            console.error('Error al cargar mensajes:', error);
+            logger.error('Error al cargar mensajes:', error);
         } finally {
             setLoading(false);
         }

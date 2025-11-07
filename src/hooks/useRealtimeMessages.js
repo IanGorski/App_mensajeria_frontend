@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { useSocketContext } from '../context/SocketContext';
 import { useAuth } from '../context/AuthContext';
 import socketService from '../services/socket.service';
@@ -8,6 +8,16 @@ export const useRealtimeMessages = (chatId) => {
     const { socket, isConnected } = useSocketContext();
     const { user } = useAuth();
     const [messages, setMessages] = useState([]);
+    const chatIdRef = useRef(null);
+
+    // Limpiar mensajes cuando cambia el chatId
+    useEffect(() => {
+        if (chatId !== chatIdRef.current) {
+            logger.debug('Chat cambió, limpiando mensajes:', { from: chatIdRef.current, to: chatId });
+            setMessages([]);
+            chatIdRef.current = chatId;
+        }
+    }, [chatId]);
 
     useEffect(() => {
         // Usar fallback a la instancia del servicio si el Context aún no actualizó
@@ -15,12 +25,12 @@ export const useRealtimeMessages = (chatId) => {
         const connected = isConnected || socketService.isConnected();
 
         if (!s || !chatId) {
-            logger.debug('⚠️ No hay socket o chatId aún:', { socket: !!s, chatId });
+            logger.debug('No hay socket o chatId aún:', { socket: !!s, chatId });
             return;
         }
 
         const join = () => {
-            logger.debug(`📩 Uniendo al chat: ${chatId}`);
+            logger.debug(`Uniendo al chat: ${chatId}`);
             s.emit('joinChat', chatId);
         };
 
@@ -30,39 +40,36 @@ export const useRealtimeMessages = (chatId) => {
 
         // Escuchar mensajes nuevos
         const handleReceiveMessage = (message) => {
-            logger.debug('📨 Mensaje recibido en hook:', message);
-            
-            // Verificar que el mensaje pertenece a este chat
+            logger.debug('Mensaje recibido en hook:', message);
+
             const messageChatId = message.chat_id || message.chat?._id || message.chat;
-            
+
             if (messageChatId === chatId || String(messageChatId) === String(chatId)) {
                 setMessages(prev => {
-                    // Evitar duplicados por _id o id
                     const messageId = message._id || message.id;
                     const exists = prev.some(m => (m._id || m.id) === messageId);
-                    
+
                     if (exists) {
-                        logger.debug('⚠️ Mensaje duplicado, ignorando');
+                        logger.debug('Mensaje duplicado, ignorando');
                         return prev;
                     }
-                    
-                    // Si viene un client_id, reemplazar el mensaje en la lista 
+
                     let newList = [...prev];
                     if (message.client_id) {
                         const idx = newList.findIndex(m => (m._id || m.id) === message.client_id);
                         if (idx !== -1) {
+                            logger.debug('Reemplazando mensaje optimista con mensaje real');
                             newList.splice(idx, 1);
                         }
                     }
 
-                    // Transformar el mensaje para que tenga el formato correspondiente para ser mostrado en el frontend
                     const transformedMessage = {
                         id: message._id || message.id,
                         _id: message._id || message.id,
                         content: message.content,
-                        timestamp: new Date(message.created_at).toLocaleTimeString([], { 
-                            hour: '2-digit', 
-                            minute: '2-digit' 
+                        timestamp: new Date(message.created_at).toLocaleTimeString([], {
+                            hour: '2-digit',
+                            minute: '2-digit'
                         }),
                         created_at: message.created_at,
                         sender: message.sender?.name || message.sender_id?.name || 'Unknown',
@@ -72,8 +79,9 @@ export const useRealtimeMessages = (chatId) => {
                         fileUrl: message.fileUrl,
                         pending: false
                     };
-                    
-                    logger.debug('Agregando nuevo mensaje a la lista:', transformedMessage);
+
+                    logger.debug('Agregando nuevo mensaje a la lista:', transformedMessage.content);
+
                     return [...newList, transformedMessage];
                 });
             } else {
@@ -94,16 +102,16 @@ export const useRealtimeMessages = (chatId) => {
         const s = socket || socketService.getSocket();
         const connected = isConnected || socketService.isConnected();
         if (!s || !chatId || !connected) {
-            console.error('No se puede enviar mensaje:', { 
-                socket: !!s, 
-                chatId, 
-                isConnected: connected 
+            logger.error('No se puede enviar mensaje:', {
+                socket: !!s,
+                chatId,
+                isConnected: connected
             });
             return;
         }
 
-        // Crear mensaje optimista para reflejo instantáneo en UI
-        const clientId = `${Date.now()}_${Math.random().toString(36).slice(2,8)}`;
+        // Crear mensaje para reflejo instantáneo en UI
+        const clientId = `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
         const now = new Date();
         const optimisticMessage = {
             id: clientId,

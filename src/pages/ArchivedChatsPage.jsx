@@ -13,7 +13,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 const ArchivedChatsPage = () => {
   const navigate = useNavigate();
-  const { conversations, handleUnarchiveConversation, handleToggleRead, handleClearConversation, handleDeleteConversation, markAsRead, markAsUnread } = useAppContext();
+  const { conversations, handleUnarchiveConversation, handleClearConversation, handleDeleteConversation, markAsRead, markAsUnread } = useAppContext();
   const [contextMenu, setContextMenu] = useState(null);
   const [touchTimer, setTouchTimer] = useState(null);
   const [touchStartPos, setTouchStartPos] = useState(null);
@@ -36,9 +36,6 @@ const ArchivedChatsPage = () => {
 
   const handleMenuAction = (action, chatId) => {
     switch (action) {
-      case 'toggleRead':
-        handleToggleRead(chatId);
-        break;
       case 'unarchive':
         handleUnarchiveConversation(chatId);
         break;

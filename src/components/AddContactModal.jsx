@@ -28,7 +28,6 @@ const AddContactModal = ({ isOpen, onClose, onContactAdded }) => {
                 setError('No se encontraron usuarios');
             }
         } catch (err) {
-            console.error('Error al buscar usuarios:', err);
             setError(err.message || 'Error al buscar usuarios');
         } finally {
             setLoading(false);
@@ -41,7 +40,6 @@ const AddContactModal = ({ isOpen, onClose, onContactAdded }) => {
 
         try {
             const response = await createPrivateChat(userId);
-            console.log('Chat creado:', response);
             
             if (onContactAdded) {
                 onContactAdded(response.data);
@@ -52,7 +50,6 @@ const AddContactModal = ({ isOpen, onClose, onContactAdded }) => {
             setSearchResults([]);
             onClose();
         } catch (err) {
-            console.error('Error al agregar contacto:', err);
             setError(err.message || 'Error al agregar contacto');
         } finally {
             setLoading(false);

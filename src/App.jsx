@@ -23,20 +23,9 @@ function AppContent() {
   const authPages = ['/login', '/signup'];
   const showSidebar = !authPages.includes(location.pathname) && user;
 
-  // Debug logs para Vercel
-  console.log('[App] Estado actual:', {
-    pathname: location.pathname,
-    hasUser: !!user,
-    userId: user?.id,
-    userName: user?.name,
-    showSidebar,
-    isAuthPage: authPages.includes(location.pathname)
-  });
-
   return (
     <div className="App">
       {showSidebar && <Sidebar />}
-      {!showSidebar && console.log('[App] Sidebar NO se muestra - Razón:', !user ? 'No hay usuario' : 'Página de auth')}
       <div className={`content ${!showSidebar ? 'fullWidth' : ''}`}>
         <Routes>
           {/* Ruta principal - redirige a chats si está autenticado, sino a login */}

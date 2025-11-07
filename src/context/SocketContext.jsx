@@ -3,6 +3,7 @@ import { useAuth } from "./AuthContext";
 import socketService from "../services/socket.service";
 import { AUTH_STRATEGY } from "../components/config/constants";
 import { getToken } from "../utils/tokenStorage";
+import logger from "../utils/logger";
 
 export const SocketContext = createContext();
 
@@ -20,7 +21,7 @@ export const SocketProvider = ({ children }) => {
     const [isConnected, setIsConnected] = useState(false);
 
     useEffect(() => {
-        // Tomar token según estrategia (si aplica)
+        // Tomar token según estrategia si existe
         const token = AUTH_STRATEGY === 'cookie' ? null : getToken();
 
         if (AUTH_STRATEGY === 'cookie' || token) {
@@ -33,29 +34,25 @@ export const SocketProvider = ({ children }) => {
 
             // Configurar listeners
             newSocket.on('connect', () => {
-                console.log('Socket conectado en Context, ID:', newSocket.id);
                 setIsConnected(true);
             });
 
-            newSocket.on('disconnect', (reason) => {
-                console.log('Socket desconectado en Context. Razón:', reason);
+            newSocket.on('disconnect', () => {
                 setIsConnected(false);
             });
 
             newSocket.on('connect_error', (error) => {
-                console.error('Error de conexión Socket:', error.message);
+                logger.error('Error de conexión Socket:', error.message);
                 setIsConnected(false);
             });
 
             // Si ya está conectado inmediatamente, setear el socket
             if (newSocket.connected) {
-                console.log('Socket ya conectado inmediatamente');
                 setSocket(newSocket);
                 setIsConnected(true);
             }
 
             return () => {
-                console.log('Limpiando conexión de socket');
                 newSocket.off('connect');
                 newSocket.off('disconnect');
                 newSocket.off('connect_error');
@@ -70,7 +67,6 @@ export const SocketProvider = ({ children }) => {
         } else {
             // Si no hay usuario, desconectar
             if (socket) {
-                console.log('Desconectando socket (sin usuario)');
                 socketService.disconnect();
                 setSocket(null);
                 setIsConnected(false);

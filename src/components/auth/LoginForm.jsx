@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import authService from "../../services/auth.service";
+import logger from "../../services/logger.service";
 
 const LoginForm = () => {
     const { setUser } = useAuth();
@@ -12,7 +13,7 @@ const LoginForm = () => {
             const data = await authService.login(form);
             setUser(data.user);
         } catch (error) {
-            console.error("Error al iniciar sesión:", error);
+            logger.error("Error al iniciar sesión:", error);
         }
     };
 

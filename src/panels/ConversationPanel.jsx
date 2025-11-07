@@ -25,6 +25,10 @@ const ConversationPanel = ({ activeConversation, onDeleteMessage }) => {
   const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
   const [totalMatches, setTotalMatches] = useState(0);
   
+  // Ref para rastrear el último ID de conversación sincronizado
+  const lastSyncedIdRef = useRef(null);
+  const initialSyncDoneRef = useRef(false);
+  
   //Hooks para mensajería en tiempo real
   const {
     messages: realtimeMessages,
@@ -42,10 +46,23 @@ const ConversationPanel = ({ activeConversation, onDeleteMessage }) => {
 
   // Sincronizar mensajes del contexto con mensajes en tiempo real
   useEffect(() => {
-    if (activeConversation?.messages) {
-      setMessages(activeConversation.messages);
+    if (!activeConversation) return;
+    
+    const currentId = activeConversation.id;
+    const hasMessages = activeConversation.messages && activeConversation.messages.length > 0;
+    
+    // Reset cuando cambia la conversación
+    if (currentId !== lastSyncedIdRef.current) {
+      initialSyncDoneRef.current = false;
+      lastSyncedIdRef.current = currentId;
     }
-  }, [activeConversation?.id, activeConversation?.messages, setMessages]);
+    
+    // Solo sincronizar UNA VEZ cuando hay mensajes y no se ha hecho sync inicial
+    if (currentId && hasMessages && !initialSyncDoneRef.current) {
+      setMessages(activeConversation.messages);
+      initialSyncDoneRef.current = true;
+    }
+  }, [activeConversation, setMessages]);
 
   // Marcar mensajes como leídos al abrir el chat
   useEffect(() => {
@@ -158,10 +175,10 @@ const ConversationPanel = ({ activeConversation, onDeleteMessage }) => {
     }
   };
 
-  // Función para obtener los mensajes a mostrar (mezclando tiempo real con existentes)
+  // Función para obtener los mensajes a mostrar // realtimeMessages
   const getMessagesToShow = () => {
-    // Combinar mensajes existentes con mensajes en tiempo real
-    const existingMessages = (activeConversation?.messages || []).map(msg => ({
+    // RealtimeMessages ya contiene todos los mensajes (cargados + nuevos)
+    const messagesToShow = realtimeMessages.map(msg => ({
       ...msg,
       id: msg._id || msg.id,
       _id: msg._id || msg.id,
@@ -169,30 +186,19 @@ const ConversationPanel = ({ activeConversation, onDeleteMessage }) => {
         hour: '2-digit', 
         minute: '2-digit' 
       }),
-      isOwn: user && (msg.sender_id?._id === user.id || msg.sender_id === user.id),
-      sender: msg.sender_id?.name || msg.sender || 'Unknown'
+      isOwn: user && (msg.sender_id?._id === user.id || msg.sender_id === user.id || msg.isOwn),
+      sender: msg.sender || msg.sender_id?.name || 'Unknown'
     }));
     
-    const allMessages = [...existingMessages, ...realtimeMessages];
-    
-    // Eliminar duplicados por _id o id
-    const uniqueMessages = allMessages.reduce((acc, msg) => {
-      const msgId = msg._id || msg.id;
-      if (!acc.some(m => (m._id || m.id) === msgId)) {
-        acc.push(msg);
-      }
-      return acc;
-    }, []);
-    
     // Ordenar por fecha
-    return uniqueMessages.sort((a, b) => {
+    return messagesToShow.sort((a, b) => {
       const dateA = new Date(a.created_at || a.timestamp);
       const dateB = new Date(b.created_at || b.timestamp);
       return dateA - dateB;
     });
   };
 
-  // STUB: Funcionalidad pendiente de implementación
+  // Funcionalidad pendiente de implementación
   const handleIconClick = () => {
     // TODO: Implementar funcionalidad de llamada/videollamada
   };
