@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { searchUsers } from '@services/user.service';
 import { createPrivateChat } from '@services/chat.service';
+import { X, Search, UserPlus, Mail } from 'lucide-react';
 import styles from './AddContactModal.module.css';
 
 const AddContactModal = ({ isOpen, onClose, onContactAdded }) => {
@@ -84,21 +85,25 @@ const AddContactModal = ({ isOpen, onClose, onContactAdded }) => {
                         className={styles.closeButton}
                         aria-label="Cerrar"
                     >
-                        ✕
+                        <X size={20} />
                     </button>
                 </div>
 
                 <form onSubmit={handleSearch} className={styles.searchForm}>
-                    <input
-                        type="email"
-                        placeholder="Buscar por email..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className={styles.searchInput}
-                        disabled={loading}
-                    />
+                    <div className={styles.inputWrapper}>
+                        <Mail size={20} className={styles.inputIcon} />
+                        <input
+                            type="email"
+                            placeholder="Buscar por email..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className={styles.searchInput}
+                            disabled={loading}
+                        />
+                    </div>
                     <button type="submit" disabled={loading} className={styles.searchButton}>
-                        {loading ? '🔍 Buscando...' : '🔍 Buscar'}
+                        <Search size={20} />
+                        {loading ? 'Buscando...' : 'Buscar'}
                     </button>
                 </form>
 
@@ -116,8 +121,12 @@ const AddContactModal = ({ isOpen, onClose, onContactAdded }) => {
                                     <p className={styles.email}>{user.email}</p>
                                     <span className={user.online ? styles.online : styles.offline}>
                                         {user.online 
-                                            ? '🟢 En línea' 
-                                            : `⚫ ${formatLastConnection(user.last_connection)}`
+                                            ? <span className={styles.statusDot}>🟢</span>
+                                            : <span className={styles.statusDot}>⚫</span>
+                                        }
+                                        {user.online 
+                                            ? 'En línea' 
+                                            : formatLastConnection(user.last_connection)
                                         }
                                     </span>
                                 </div>
@@ -127,7 +136,8 @@ const AddContactModal = ({ isOpen, onClose, onContactAdded }) => {
                                 disabled={loading}
                                 className={styles.addButton}
                             >
-                                ➕ Agregar
+                                <UserPlus size={18} />
+                                Agregar
                             </button>
                         </div>
                     ))}

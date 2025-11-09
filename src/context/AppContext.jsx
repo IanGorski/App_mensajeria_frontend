@@ -66,6 +66,13 @@ export const AppProvider = ({ children }) => {
         }
 
         const normalized = normalizeConversation(contact, (user?._id ?? user?.id)?.toString?.());
+        
+        // Verificar si ya está seleccionado para evitar llamadas duplicadas
+        if (activeConversation && activeConversation.id === normalized.id) {
+            logger.debug('[AppContext] Conversación ya activa, saltando selección');
+            return;
+        }
+
         setSelectedContact(normalized);
 
         const messages = await fetchMessages(normalized.id);
@@ -79,7 +86,7 @@ export const AppProvider = ({ children }) => {
         if (isMobile) {
             setShowChatList(false);
         }
-    }, [user, isMobile]);
+    }, [user, isMobile, activeConversation]);
 
     const handleDeselectContact = useCallback(() => {
         setSelectedContact(null);

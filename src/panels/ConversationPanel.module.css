@@ -26,31 +26,33 @@
 }
 
 .conversationHeader {
-  background-color: #f0f2f5;
-  padding: 16px 20px;
-  border-bottom: 1px solid #e0e0e0;
+  background: white;
+  padding: var(--spacing-4) var(--spacing-5);
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
   min-height: 70px;
+  box-shadow: var(--shadow-sm);
 }
 
 .backButton {
   background: none;
   border: none;
-  color: #54656f;
+  color: var(--text-secondary);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
-  margin-right: 8px;
+  padding: var(--spacing-2);
+  margin-right: var(--spacing-2);
   border-radius: 50%;
-  transition: background-color 0.2s;
+  transition: all var(--transition-fast);
 }
 
 .backButton:hover {
-  background-color: #e9edef;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
 }
 
 .contactInfo {
@@ -61,19 +63,20 @@
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background-color: #00a884;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-weight: bold;
-  font-size: 16px;
-  margin-right: 12px;
+  font-weight: 600;
+  font-size: var(--text-base);
+  margin-right: var(--spacing-4);
   overflow: hidden;
   flex-shrink: 0;
+  box-shadow: var(--shadow-md);
 }
 
 .avatarImage {
@@ -85,36 +88,41 @@
 
 .contactDetails h3 {
   margin: 0;
-  font-size: 16px;
+  font-size: var(--text-lg);
   font-weight: 600;
-  color: #111b21;
+  color: var(--text-primary);
+  margin-bottom: 3px; 
+  font-family: var(--font-sans);
 }
 
 .status {
-  margin: 2px 0 0 0;
-  font-size: 13px;
-  color: #667781;
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
 }
 
 .headerActions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--spacing-3); 
 }
 
 .actionButton {
   background: none;
   border: none;
-  font-size: 20px;
   cursor: pointer;
-  padding: 8px;
+  padding: var(--spacing-2);
   border-radius: 50%;
-  transition: background-color 0.2s;
-  color: #54656f;
+  transition: all var(--transition-fast);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .actionButton:hover {
-  background-color: #f5f6f6;
+  background: var(--primary-light);
+  color: var(--primary);
 }
 
 .emptyState {

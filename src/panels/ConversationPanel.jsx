@@ -3,13 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './ConversationPanel.module.css';
 import MessageList from '../ui/MessageList';
 import MessageComposer from '../ui/MessageComposer';
-import CallIcon from '@mui/icons-material/Call';
-import VideocamIcon from '@mui/icons-material/Videocam';
-import SearchIcon from '@mui/icons-material/Search';
-import CloseIcon from '@mui/icons-material/Close';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Phone, Video, Search, X, ChevronUp, ChevronDown, ArrowLeft } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import { useAuth } from '../context/AuthContext';
 import { useRealtimeMessages } from '../hooks/useRealtimeMessages';
@@ -230,7 +224,7 @@ const ConversationPanel = ({ activeConversation, onDeleteMessage }) => {
             onClick={handleBackClick}
             title="Volver a chats"
           >
-            <ArrowBackIcon sx={{ fontSize: 24 }} />
+            <ArrowLeft size={24} />
           </button>
         )}
         <div className={styles.contactInfo}>
@@ -256,18 +250,18 @@ const ConversationPanel = ({ activeConversation, onDeleteMessage }) => {
           </div>
         </div>
         <div className={styles.headerActions}>
-          <button className={styles.actionButton} onClick={handleIconClick}>
-            <CallIcon sx={{ fontSize: 20 }} />
+          <button className={styles.actionButton} onClick={handleIconClick} title="Llamada de voz">
+            <Phone size={20} />
           </button>
-          <button className={styles.actionButton} onClick={handleIconClick}>
-            <VideocamIcon sx={{ fontSize: 20 }} />
+          <button className={styles.actionButton} onClick={handleIconClick} title="Videollamada">
+            <Video size={20} />
           </button>
           <button 
             className={styles.actionButton}
             onClick={toggleSearch}
             title="Buscar en chat"
           >
-            <SearchIcon sx={{ fontSize: 20 }} />
+            <Search size={20} />
           </button>
         </div>
       </div>
@@ -297,7 +291,7 @@ const ConversationPanel = ({ activeConversation, onDeleteMessage }) => {
                   disabled={totalMatches === 0}
                   title="Resultado anterior"
                 >
-                  <KeyboardArrowUpIcon sx={{ fontSize: 16 }} />
+                  <ChevronUp size={16} />
                 </button>
                 <button 
                   className={styles.navButton}
@@ -305,7 +299,7 @@ const ConversationPanel = ({ activeConversation, onDeleteMessage }) => {
                   disabled={totalMatches === 0}
                   title="Siguiente resultado"
                 >
-                  <KeyboardArrowDownIcon sx={{ fontSize: 16 }} />
+                  <ChevronDown size={16} />
                 </button>
               </div>
             )}
@@ -314,7 +308,7 @@ const ConversationPanel = ({ activeConversation, onDeleteMessage }) => {
               className={styles.closeSearchButton}
               onClick={toggleSearch}
             >
-              <CloseIcon sx={{ fontSize: 18 }} />
+              <X size={18} />
             </button>
           </div>
         </div>

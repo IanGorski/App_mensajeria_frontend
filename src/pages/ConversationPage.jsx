@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import LeftPanel from '../panels/LeftPanel';
 import ConversationPanel from '../panels/ConversationPanel';
@@ -19,6 +19,8 @@ const ConversationPage = () => {
         handleDeleteMessage,
         handleDeselectContact
     } = useAppContext();
+
+    const [isLoading, setIsLoading] = useState(false); // Estado para el loader
 
     // Manejar tecla ESC para deseleccionar chat
     const handleEscapePress = useCallback(() => {
@@ -49,11 +51,13 @@ const ConversationPage = () => {
         if (currentConversation) {
             // Solo actualizar si la conversación cambió o no hay conversación activa
             if (!activeConversation || activeConversation.id !== currentConversation.id) {
+                setIsLoading(true); // Activar loader al seleccionar un contacto
                 handleSelectContact(currentConversation);
+                setTimeout(() => setIsLoading(false), 500); // Simular tiempo de carga
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentConversation]);
+    }, [currentConversation, activeConversation, handleSelectContact]);
 
     // En móvil mantener el comportamiento original
     if (isMobile) {
@@ -71,11 +75,10 @@ const ConversationPage = () => {
                         onDeleteMessage={handleDeleteMessage}
                     />
                 )}
-                {!showChatList && !activeConversation && (
-                    <div className={styles.emptyState}>
-                        <h3>WhatsApp para Windows</h3>
-                        <p>Envía y recibe mensajes sin mantener tu teléfono conectado.</p>
-                        <p>Usa Whatsapp en hasta 4 dispositivos vinculados y 1 teléfono a la vez.</p>
+                {!showChatList && isLoading && (
+                    <div className={styles.loadingState}>
+                        <div className={styles.spinner}></div>
+                        <p>Cargando chat...</p>
                     </div>
                 )}
             </div>
@@ -88,18 +91,17 @@ const ConversationPage = () => {
             <LeftPanel
                 conversations={conversations}
             />
-            {activeConversation ? (
+            {isLoading ? (
+                <div className={styles.loadingState}>
+                    <div className={styles.spinner}></div>
+                    <p>Cargando chat...</p>
+                </div>
+            ) : (
                 <ConversationPanel
                     activeConversation={activeConversation}
                     onSendMessage={handleSendMessage}
                     onDeleteMessage={handleDeleteMessage}
                 />
-            ) : (
-                <div className={styles.emptyState}>
-                    <h3>WhatsApp para Windows</h3>
-                    <p>Envía y recibe mensajes sin mantener tu teléfono conectado.</p>
-                    <p>Usa Whatsapp en hasta 4 dispositivos vinculados y 1 teléfono a la vez.</p>
-                </div>
             )}
         </div>
     );

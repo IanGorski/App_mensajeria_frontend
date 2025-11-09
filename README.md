@@ -4,12 +4,15 @@ Aplicación web de mensajería instantánea con interfaz moderna, construida con
 
 ## 🛠️ Stacks Tecnológicos
 
-[![React](https://img.shields.io/badge/React-19.1-blue.svg)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-7.x-purple.svg)](https://vitejs.dev/)
-[![Socket.IO](https://img.shields.io/badge/Socket.IO-4.x-green.svg)](https://socket.io/)
-[![Material-UI](https://img.shields.io/badge/Material--UI-7.x-0081CB.svg)](https://mui.com/)
-[![Axios](https://img.shields.io/badge/Axios-1.x-yellow.svg)](https://axios-http.com/)
-[![React Router](https://img.shields.io/badge/React--Router-6.x-red.svg)](https://reactrouter.com/)
+[![React](https://img.shields.io/badge/React-19.1-61DAFB.svg?logo=react&logoColor=white)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-7.x-646CFF.svg?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Socket.IO](https://img.shields.io/badge/Socket.IO-4.x-010101.svg?logo=socket.io)](https://socket.io/)
+[![Material-UI](https://img.shields.io/badge/Material--UI-7.x-0081CB.svg?logo=mui)](https://mui.com/)
+[![Axios](https://img.shields.io/badge/Axios-1.x-5A29E4.svg)](https://axios-http.com/)
+[![React Router](https://img.shields.io/badge/React--Router-6.x-CA4245.svg?logo=react-router&logoColor=white)](https://reactrouter.com/)
+[![Lucide React](https://img.shields.io/badge/Lucide--React-latest-F56565.svg)](https://lucide.dev/)
+[![Google Fonts](https://img.shields.io/badge/Google--Fonts-Inter%20%7C%20Poppins-4285F4.svg?logo=google-fonts&logoColor=white)](https://fonts.google.com/)
+[![Vitest](https://img.shields.io/badge/Vitest-1.x-brightgreen.svg)](https://vitest.dev/)
 
 ## 🌐 Despliegue
 
@@ -264,6 +267,13 @@ npm run preview
 
 # Ejecutar tests
 npm run test
+
+# Ejecutar tests con UI
+npm run test:ui
+
+# Linter
+npm run lint
+```
 
 # Tests con UI
 npm run test:ui

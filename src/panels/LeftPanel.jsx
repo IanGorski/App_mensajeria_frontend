@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import styles from './LeftPanel.module.css';
 import SearchBar from '../ui/SearchBar';
 import UserCard from '../ui/UserCard';
-import { useAppContext } from '../context/AppContext';
 import { useUserStatus } from '../hooks/useUserStatus';
 import ChatIcon from '@mui/icons-material/Chat';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -11,7 +10,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 const LeftPanel = ({ conversations = [] }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
-  const { handleSelectContact, isMobile } = useAppContext();
   const { isUserOnline } = useUserStatus();
 
   // Ordenar conversaciones: fijadas primero, luego por timestamp
@@ -46,17 +44,8 @@ const LeftPanel = ({ conversations = [] }) => {
       return;
     }
 
-    // Actualizar el contexto primero
-    handleSelectContact(contact);
-    
-    // Navegar según el modo
-    if (!isMobile) {
-      // En desktop, actualizar URL pero mantener la misma página
-      navigate(`/chat/${contact.id}`, { replace: true });
-    } else {
-      // En mobile, navegar normalmente
-      navigate(`/chat/${contact.id}`);
-    }
+    // Solo navegar, el ChatPage se encargará de seleccionar el contacto
+    navigate(`/chat/${contact.id}`);
   };
 
   return (

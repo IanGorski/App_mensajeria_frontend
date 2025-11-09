@@ -1,12 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './MessageComposer.module.css';
-import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
-import AttachFileIcon from '@mui/icons-material/AttachFile';
-import SendIcon from '@mui/icons-material/Send';
-import MicIcon from '@mui/icons-material/Mic';
+import { Smile, Paperclip, Send, Mic, ClipboardPaste, Type } from 'lucide-react';
 import ContextMenu from './ContextMenu';
-import ContentPasteIcon from '@mui/icons-material/ContentPaste';
-import TextFormatIcon from '@mui/icons-material/TextFormat';
 
 const MessageComposer = ({ onSendMessage, conversationId, onTypingChange }) => {
   const [message, setMessage] = useState('');
@@ -91,12 +86,12 @@ const MessageComposer = ({ onSendMessage, conversationId, onTypingChange }) => {
   const inputContextMenuOptions = [
     {
       label: 'Pegar',
-      icon: <ContentPasteIcon sx={{ fontSize: 18 }} />,
+      icon: <ClipboardPaste size={18} />,
       onClick: handlePaste,
     },
     {
       label: 'Formato de texto',
-      icon: <TextFormatIcon sx={{ fontSize: 18 }} />,
+      icon: <Type size={18} />,
       onClick: () => {
         // TODO: Implementar formato de texto
       },
@@ -107,10 +102,10 @@ const MessageComposer = ({ onSendMessage, conversationId, onTypingChange }) => {
     <div className={styles.messageComposer}>
       <div className={styles.leftButtons}>
         <button type="button" className={styles.emojiButton} title="Emoji" onClick={handleIconClick}>
-          <InsertEmoticonIcon sx={{ fontSize: 24, color: '#54656f' }} />
+          <Smile size={24} />
         </button>
         <button type="button" className={styles.attachButton} title="Adjuntar" onClick={handleIconClick}>
-          <AttachFileIcon sx={{ fontSize: 24, color: '#54656f' }} />
+          <Paperclip size={24} />
         </button>
       </div>
       
@@ -136,9 +131,9 @@ const MessageComposer = ({ onSendMessage, conversationId, onTypingChange }) => {
         title={message.trim() ? "Enviar" : "Grabar audio"}
       >
         {message.trim() ? (
-          <SendIcon sx={{ fontSize: 24, color: '#54656f' }} />
+          <Send size={20} />
         ) : (
-          <MicIcon sx={{ fontSize: 24, color: '#54656f' }} />
+          <Mic size={20} />
         )}
       </button>
 

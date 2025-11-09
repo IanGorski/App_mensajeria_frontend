@@ -1,22 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './MessageList.module.css';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { 
+  Trash2, 
+  Reply, 
+  Copy, 
+  Forward, 
+  Star, 
+  Pin, 
+  Square, 
+  Share2, 
+  Info, 
+  ThumbsUp, 
+  Heart, 
+  Laugh, 
+  Smile, 
+  Frown, 
+  Plus,
+  Check,
+  CheckCheck
+} from 'lucide-react';
 import ContextMenu from './ContextMenu';
 import ConfirmDialog from './ConfirmDialog';
-import ReplyIcon from '@mui/icons-material/Reply';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import ForwardIcon from '@mui/icons-material/Forward';
-import StarIcon from '@mui/icons-material/Star';
-import PushPinIcon from '@mui/icons-material/PushPin';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import ShareIcon from '@mui/icons-material/Share';
-import InfoIcon from '@mui/icons-material/Info';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
-import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
-import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
-import AddIcon from '@mui/icons-material/Add';
 
 const MessageList = ({ messages = [], searchTerm = '', currentMatchIndex = 0, onDeleteMessage, activeConversation }) => {
   const messageRefs = useRef({});
@@ -112,35 +116,35 @@ const MessageList = ({ messages = [], searchTerm = '', currentMatchIndex = 0, on
   const getOwnMessageOptions = (message) => [
     {
       label: 'Responder',
-      icon: <ReplyIcon sx={{ fontSize: 18 }} />,
+      icon: <Reply size={18} />,
       onClick: () => {
         // TODO: Implementar responder mensaje
       },
     },
     {
       label: 'Copiar',
-      icon: <ContentCopyIcon sx={{ fontSize: 18 }} />,
+      icon: <Copy size={18} />,
       onClick: () => {
         navigator.clipboard.writeText(message.content);
       },
     },
     {
       label: 'Reenviar',
-      icon: <ForwardIcon sx={{ fontSize: 18 }} />,
+      icon: <Forward size={18} />,
       onClick: () => {
         // TODO: Implementar reenviar mensaje
       },
     },
     {
       label: 'Destacar',
-      icon: <StarIcon sx={{ fontSize: 18 }} />,
+      icon: <Star size={18} />,
       onClick: () => {
         // TODO: Implementar destacar mensaje
       },
     },
     {
       label: 'Fijar',
-      icon: <PushPinIcon sx={{ fontSize: 18 }} />,
+      icon: <Pin size={18} />,
       onClick: () => {
         // TODO: Implementar fijar mensaje
       },
@@ -148,7 +152,7 @@ const MessageList = ({ messages = [], searchTerm = '', currentMatchIndex = 0, on
     { divider: true },
     {
       label: 'Eliminar',
-      icon: <DeleteIcon sx={{ fontSize: 18 }} />,
+      icon: <Trash2 size={18} />,
       danger: true,
       onClick: () => {
         setConfirmDialog({ isOpen: true, messageId: message.id });
@@ -156,21 +160,21 @@ const MessageList = ({ messages = [], searchTerm = '', currentMatchIndex = 0, on
     },
     {
       label: 'Seleccionar',
-      icon: <CheckBoxOutlineBlankIcon sx={{ fontSize: 18 }} />,
+      icon: <Square size={18} />,
       onClick: () => {
         // TODO: Implementar seleccionar mensaje
       },
     },
     {
       label: 'Compartir',
-      icon: <ShareIcon sx={{ fontSize: 18 }} />,
+      icon: <Share2 size={18} />,
       onClick: () => {
         // TODO: Implementar compartir mensaje
       },
     },
     {
       label: 'Info.',
-      icon: <InfoIcon sx={{ fontSize: 18 }} />,
+      icon: <Info size={18} />,
       onClick: () => {
         // TODO: Implementar info del mensaje
       },
@@ -181,35 +185,35 @@ const MessageList = ({ messages = [], searchTerm = '', currentMatchIndex = 0, on
   const getReceivedMessageOptions = (message) => [
     {
       label: 'Responder',
-      icon: <ReplyIcon sx={{ fontSize: 18 }} />,
+      icon: <Reply size={18} />,
       onClick: () => {
         // TODO: Implementar responder mensaje
       },
     },
     {
       label: 'Copiar',
-      icon: <ContentCopyIcon sx={{ fontSize: 18 }} />,
+      icon: <Copy size={18} />,
       onClick: () => {
         navigator.clipboard.writeText(message.content);
       },
     },
     {
       label: 'Reenviar',
-      icon: <ForwardIcon sx={{ fontSize: 18 }} />,
+      icon: <Forward size={18} />,
       onClick: () => {
         // TODO: Implementar reenviar mensaje
       },
     },
     {
       label: 'Destacar',
-      icon: <StarIcon sx={{ fontSize: 18 }} />,
+      icon: <Star size={18} />,
       onClick: () => {
         // TODO: Implementar destacar mensaje
       },
     },
     {
       label: 'Fijar',
-      icon: <PushPinIcon sx={{ fontSize: 18 }} />,
+      icon: <Pin size={18} />,
       onClick: () => {
         // TODO: Implementar fijar mensaje
       },
@@ -217,7 +221,7 @@ const MessageList = ({ messages = [], searchTerm = '', currentMatchIndex = 0, on
     { divider: true },
     {
       label: 'Eliminar para mí',
-      icon: <DeleteIcon sx={{ fontSize: 18 }} />,
+      icon: <Trash2 size={18} />,
       danger: true,
       onClick: () => {
         setConfirmDialog({ isOpen: true, messageId: message.id });
@@ -225,21 +229,21 @@ const MessageList = ({ messages = [], searchTerm = '', currentMatchIndex = 0, on
     },
     {
       label: 'Seleccionar',
-      icon: <CheckBoxOutlineBlankIcon sx={{ fontSize: 18 }} />,
+      icon: <Square size={18} />,
       onClick: () => {
         // TODO: Implementar seleccionar mensaje
       },
     },
     {
       label: 'Compartir',
-      icon: <ShareIcon sx={{ fontSize: 18 }} />,
+      icon: <Share2 size={18} />,
       onClick: () => {
         // TODO: Implementar compartir mensaje
       },
     },
     {
       label: 'Info.',
-      icon: <InfoIcon sx={{ fontSize: 18 }} />,
+      icon: <Info size={18} />,
       onClick: () => {
         // TODO: Implementar info del mensaje
       },
@@ -248,12 +252,12 @@ const MessageList = ({ messages = [], searchTerm = '', currentMatchIndex = 0, on
 
   // Reacciones rápidas
   const reactions = [
-    { icon: <ThumbUpIcon sx={{ fontSize: 18 }} />, label: 'Me gusta' },
-    { icon: <FavoriteIcon sx={{ fontSize: 18 }} />, label: 'Amor' },
-    { icon: <SentimentSatisfiedAltIcon sx={{ fontSize: 18 }} />, label: 'Risa' },
-    { icon: <EmojiEmotionsIcon sx={{ fontSize: 18 }} />, label: 'Sorpresa' },
-    { icon: <InsertEmoticonIcon sx={{ fontSize: 18 }} />, label: 'Triste' },
-    { icon: <AddIcon sx={{ fontSize: 18 }} />, label: 'Más' },
+    { icon: <ThumbsUp size={18} />, label: 'Me gusta' },
+    { icon: <Heart size={18} />, label: 'Amor' },
+    { icon: <Laugh size={18} />, label: 'Risa' },
+    { icon: <Smile size={18} />, label: 'Sorpresa' },
+    { icon: <Frown size={18} />, label: 'Triste' },
+    { icon: <Plus size={18} />, label: 'Más' },
   ];
 
   // Scroll al mensaje activo cuando cambie la selección
@@ -364,9 +368,9 @@ const MessageList = ({ messages = [], searchTerm = '', currentMatchIndex = 0, on
                   {message.isOwn && (
                     message.pending ? (
                       // Indicador de envío pendiente
-                      <span className={styles.pendingCheck}>✓</span>
+                      <Check size={14} className={styles.pendingCheck} />
                     ) : (
-                      <span className={styles.checkmarks}>✓✓</span>
+                      <CheckCheck size={14} className={styles.checkmarks} />
                     )
                   )}
                 </div>
