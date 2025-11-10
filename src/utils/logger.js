@@ -1,5 +1,7 @@
 // Logger utilitario: eliminar emojis
 const isDev = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.DEV;
+// Permitir logs en producción, defino variable
+const enableLogs = import.meta.env.VITE_ENABLE_LOGS === 'true' || isDev;
 
 // Remover emojis para consola limpia
 const stripEmojis = (value) => {
@@ -18,9 +20,9 @@ const stripEmojis = (value) => {
 
 const sanitizeArgs = (args) => args.map((a) => (typeof a === 'string' ? stripEmojis(a) : a));
 
-export const log = (...args) => { if (isDev) console.log(...sanitizeArgs(args)); };
-export const debug = (...args) => { if (isDev) console.debug(...sanitizeArgs(args)); };
-export const warn = (...args) => { if (isDev) console.warn(...sanitizeArgs(args)); };
+export const log = (...args) => { if (enableLogs) console.log(...sanitizeArgs(args)); };
+export const debug = (...args) => { if (enableLogs) console.debug(...sanitizeArgs(args)); };
+export const warn = (...args) => { if (enableLogs) console.warn(...sanitizeArgs(args)); };
 export const error = (...args) => { console.error(...sanitizeArgs(args)); };
 
 export default { log, debug, warn, error };
