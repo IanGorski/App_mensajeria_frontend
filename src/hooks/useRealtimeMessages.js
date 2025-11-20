@@ -43,6 +43,15 @@ export const useRealtimeMessages = (chatId) => {
             const messageChatId = message.chat_id || message.chat?._id || message.chat;
 
             if (messageChatId === chatId || String(messageChatId) === String(chatId)) {
+                // Log cuando se recibe un mensaje exitosamente
+                logger.debug('Mensaje recibido del servidor:', {
+                    chatId: messageChatId,
+                    messageId: message._id || message.id,
+                    content: message.content.substring(0, 30) + (message.content.length > 30 ? '...' : ''),
+                    sender: message.sender?.name || message.sender_id?.name,
+                    client_id: message.client_id
+                });
+
                 setMessages(prev => {
                     const messageId = message._id || message.id;
                     
@@ -151,7 +160,7 @@ export const useRealtimeMessages = (chatId) => {
         };
         setMessages(prev => [...prev, optimisticMessage]);
 
-        logger.debug('Enviando mensaje:', { chatId, content, type, clientId });
+        logger.debug('Enviando mensaje al servidor:', { chatId, content: content.substring(0, 30) + (content.length > 30 ? '...' : ''), type, clientId });
         s.emit('sendMessage', {
             chat_id: chatId,
             content,
