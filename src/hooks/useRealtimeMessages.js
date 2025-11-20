@@ -9,6 +9,7 @@ export const useRealtimeMessages = (chatId) => {
     const { user } = useAuth();
     const [messages, setMessages] = useState([]);
     const chatIdRef = useRef(null);
+    const handlerRef = useRef(null);
 
     // Limpiar mensajes cuando cambia el chatId
     useEffect(() => {
@@ -25,7 +26,6 @@ export const useRealtimeMessages = (chatId) => {
         const connected = isConnected || socketService.isConnected();
 
         if (!s || !chatId) {
-            logger.debug('No hay socket o chatId aún:', { socket: !!s, chatId });
             return;
         }
 
@@ -34,32 +34,39 @@ export const useRealtimeMessages = (chatId) => {
             s.emit('joinChat', chatId);
         };
 
-        // Si ya está conectado, unirse de inmediato; si no, esperar al evento 'connect'
+        // Si ya está conectado, unirse de inmediato; si no, esperar al evento 
         if (connected) join();
         else s.once('connect', join);
 
         // Escuchar mensajes nuevos
         const handleReceiveMessage = (message) => {
-            logger.debug('Mensaje recibido en hook:', message);
-
             const messageChatId = message.chat_id || message.chat?._id || message.chat;
 
             if (messageChatId === chatId || String(messageChatId) === String(chatId)) {
                 setMessages(prev => {
                     const messageId = message._id || message.id;
-                    const exists = prev.some(m => (m._id || m.id) === messageId);
+                    
+                    // Verificar si el mensaje ya existe para evitar duplicados
+                    const existsById = prev.some(m => {
+                        const mId = m._id || m.id;
+                        return mId === messageId && !m.pending;
+                    });
 
-                    if (exists) {
-                        logger.debug('Mensaje duplicado, ignorando');
+                    if (existsById) {
                         return prev;
                     }
 
                     let newList = [...prev];
+                    
+                    // Si el mensaje tiene client_id, reemplazar el mensaje optimista
                     if (message.client_id) {
-                        const idx = newList.findIndex(m => (m._id || m.id) === message.client_id);
-                        if (idx !== -1) {
-                            logger.debug('Reemplazando mensaje optimista con mensaje real');
-                            newList.splice(idx, 1);
+                        const optimisticIdx = newList.findIndex(m => {
+                            const mId = m._id || m.id;
+                            return mId === message.client_id && m.pending === true;
+                        });
+                        
+                        if (optimisticIdx !== -1) {
+                            newList.splice(optimisticIdx, 1);
                         }
                     }
 
@@ -80,20 +87,36 @@ export const useRealtimeMessages = (chatId) => {
                         pending: false
                     };
 
-                    logger.debug('Agregando nuevo mensaje a la lista:', transformedMessage.content);
+                    // Verificación de duplicados final antes de agregar el mensaje
+                    const finalCheck = newList.some(m => {
+                        const mId = m._id || m.id;
+                        const tId = transformedMessage._id || transformedMessage.id;
+                        return mId === tId;
+                    });
+                    
+                    if (!finalCheck) {
+                        newList.push(transformedMessage);
+                    }
 
-                    return [...newList, transformedMessage];
+                    return newList;
                 });
-            } else {
-                logger.debug('Mensaje de otro chat, ignorando:', { messageChatId, expectedChatId: chatId });
             }
         };
 
+        // Limpiar handler anterior si existe
+        if (handlerRef.current) {
+            s.off('receiveMessage', handlerRef.current);
+        }
+        
+        // Guardar referencia al nuevo handler
+        handlerRef.current = handleReceiveMessage;
         s.on('receiveMessage', handleReceiveMessage);
 
         return () => {
             logger.debug(`Limpiando listeners del chat: ${chatId}`);
-            s.off('receiveMessage', handleReceiveMessage);
+            if (handlerRef.current) {
+                s.off('receiveMessage', handlerRef.current);
+            }
             s.off('connect', join);
         };
     }, [socket, chatId, isConnected, user]);
