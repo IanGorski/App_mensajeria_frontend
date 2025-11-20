@@ -5,9 +5,14 @@
   cursor: pointer;
   transition: all var(--transition-fast);
   border-bottom: 1px solid var(--border-color);
-  background: white;
+  background: var(--bg-primary);
   margin-bottom: 2px; 
-  gap: 12px; 
+  gap: 16px;
+}
+
+[data-theme="dark"] .userCard {
+  background: var(--bg-primary);
+  border-bottom-color: var(--border-color);
 }
 
 .userCard:hover {
@@ -108,11 +113,15 @@
 .lastMessage {
   margin: 0;
   font-size: 13px;
-  color: #667781;
+  color: var(--text-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   flex: 1;
+}
+
+[data-theme="dark"] .lastMessage {
+  color: var(--text-muted);
 }
 
 .checkmarks {

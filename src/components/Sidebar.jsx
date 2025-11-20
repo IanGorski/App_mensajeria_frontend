@@ -16,6 +16,7 @@ import {
 import { useAppContext } from "../context/AppContext";
 import { useAuth } from "../context/AuthContext";
 import AddContactModal from "./AddContactModal";
+import ThemeToggle from "./ThemeToggle";
 import styles from "./Sidebar.module.css";
 import logger from '../utils/logger';
 
@@ -195,6 +196,14 @@ const Sidebar = () => {
           </span>
           {isExpanded && <span className={styles.menuLabel}>Perfil</span>}
         </button>
+
+        {/* Separador visual */}
+        <div className={styles.menuSeparator}></div>
+
+        {/* Toggle */}
+        <div className={`${styles.menuItem} ${styles.themeToggleContainer}`}>
+          <ThemeToggle />
+        </div>
 
         <button
           className={`${styles.menuItem} ${styles.logoutBtn}`}

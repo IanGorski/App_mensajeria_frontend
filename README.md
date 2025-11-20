@@ -16,7 +16,9 @@ Aplicación web de mensajería instantánea con interfaz moderna, construida con
 
 ## 🌐 Despliegue
 
-[![Frontend en Vercel](https://img.shields.io/badge/Vercel-Deploy-black.svg)](https://app-mensajeria-frontend.vercel.app/login)
+- [![Frontend en Vercel](https://img.shields.io/badge/Vercel-Deploy-black.svg)](https://app-mensajeria-frontend.vercel.app/login)
+
+- [![Frontend en Render](https://img.shields.io/badge/Render-Deploy-blue.svg)](https://app-mensajeria-frontend.onrender.com/login)
 
 ## 📚 Documentación Técnica
 

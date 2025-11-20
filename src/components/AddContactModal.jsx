@@ -79,7 +79,12 @@ const AddContactModal = ({ isOpen, onClose, onContactAdded }) => {
         <div className={styles.modalOverlay} onClick={onClose}>
             <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
                 <div className={styles.modalHeader}>
-                    <h2>Agregar Contacto</h2>
+                    <div className={styles.headerContent}>
+                        <div className={styles.headerIcon}>
+                            <UserPlus size={24} />
+                        </div>
+                        <h2>Agregar Contacto</h2>
+                    </div>
                     <button 
                         onClick={onClose} 
                         className={styles.closeButton}
@@ -120,10 +125,7 @@ const AddContactModal = ({ isOpen, onClose, onContactAdded }) => {
                                     <h3>{user.name}</h3>
                                     <p className={styles.email}>{user.email}</p>
                                     <span className={user.online ? styles.online : styles.offline}>
-                                        {user.online 
-                                            ? <span className={styles.statusDot}>🟢</span>
-                                            : <span className={styles.statusDot}>⚫</span>
-                                        }
+                                        <span className={styles.statusDot}></span>
                                         {user.online 
                                             ? 'En línea' 
                                             : formatLastConnection(user.last_connection)

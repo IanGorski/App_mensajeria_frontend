@@ -3,7 +3,7 @@
   max-width: 420px;
   min-width: 420px;
   flex-shrink: 0;
-  background-color: #ffffff;
+  background-color: var(--bg-primary);
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -11,14 +11,24 @@
   overflow: hidden;
 }
 
+[data-theme="dark"] .leftPanel {
+  background-color: var(--bg-primary);
+  border-right: 1px solid var(--border-color);
+}
+
 .header {
-  background-color: #f0f2f5;
+  background-color: var(--bg-secondary);
   padding: 16px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--border-color);
   min-height: 70px;
+}
+
+[data-theme="dark"] .header {
+  background-color: var(--bg-secondary);
+  border-bottom-color: var(--border-color-dark);
 }
 
 .userProfile {
@@ -30,7 +40,11 @@
   margin: 0;
   font-size: 19px;
   font-weight: 600;
-  color: #111b21;
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .userProfile h2 {
+  color: var(--text-primary);
 }
 
 .headerActions {
@@ -45,13 +59,17 @@
   cursor: pointer;
   padding: 8px;
   border-radius: 50%;
-  color: #54656f;
+  color: var(--text-secondary);
   transition: background-color 0.18s, color 0.18s;
   outline: none;
   box-shadow: none;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+[data-theme="dark"] .actionButton {
+  color: var(--text-secondary);
 }
 
 .actionButton:focus {
@@ -66,21 +84,35 @@
 }
 
 .actionButton:hover {
-  background-color: #3c4144;
-  color: #aebac1;
+  background-color: var(--bg-hover);
+  color: var(--primary);
   transition: background-color 0.18s, color 0.18s;
+}
+
+[data-theme="dark"] .actionButton:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--primary-light);
 }
 
 .searchContainer {
   padding: 8px 12px;
-  background-color: #f0f2f5;
-  border-bottom: 1px solid #e2e8f0;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .searchContainer {
+  background-color: var(--bg-secondary);
+  border-bottom-color: var(--border-color);
 }
 
 .contactsList {
   flex: 1;
   overflow-y: auto;
-  background-color: #ffffff;
+  background-color: var(--bg-primary);
+}
+
+[data-theme="dark"] .contactsList {
+  background-color: var(--bg-primary);
 }
 
 .emptyState {

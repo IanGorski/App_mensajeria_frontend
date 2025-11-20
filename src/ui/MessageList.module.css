@@ -3,12 +3,16 @@
   overflow-y: auto;
   overflow-x: hidden;
   padding: var(--spacing-5) var(--spacing-7);
-  background: #ffffff;
+  background: var(--bg-primary);
   position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-3);
   scroll-behavior: smooth;
+}
+
+[data-theme="dark"] .messageList {
+  background: var(--bg-primary);
 }
 
 .messageList:before, .messageList:after {
@@ -27,18 +31,18 @@
   align-items: flex-end;
   gap: var(--spacing-2);
   max-width: 100%;
-  animation: slideIn 0.2s ease-out;
+  animation: slideInMessage 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   margin: 6px 0; /* espacio vertical */
 }
 
-@keyframes slideIn {
+@keyframes slideInMessage {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(20px) scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -90,11 +94,12 @@
   overflow-wrap: break-word;
   position: relative;
   box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
-  transition: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .messageBubble:hover {
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
 }
 
 .ownMessage .messageBubble {
@@ -105,12 +110,24 @@
   border: 1px solid rgba(0,0,0,0.06);
 }
 
+[data-theme="dark"] .ownMessage .messageBubble {
+  background: linear-gradient(135deg, #005c4b 0%, #004a3d 100%);
+  color: var(--text-primary);
+  border-color: rgba(255,255,255,0.1);
+}
+
 .otherMessage .messageBubble {
   background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
   color: #111b21;
   border-top-left-radius: 0px;
   margin-right: auto;
   border: 1px solid rgba(0,0,0,0.06);
+}
+
+[data-theme="dark"] .otherMessage .messageBubble {
+  background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+  color: var(--text-primary);
+  border-color: rgba(255,255,255,0.1);
 }
 
 .messageContent {
@@ -120,6 +137,10 @@
   color: #111b21;
   white-space: pre-wrap;
   word-break: break-word;
+}
+
+[data-theme="dark"] .messageContent {
+  color: var(--text-primary);
 }
 
 .messageTime {
@@ -135,6 +156,11 @@
   float: right;
   margin-left: 6px;
   letter-spacing: 0.2px;
+}
+
+[data-theme="dark"] .messageTime {
+  color: var(--text-muted);
+  opacity: 0.8;
 }
 
 .ownMessage .messageTime { color: #54656f; }

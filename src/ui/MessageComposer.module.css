@@ -25,12 +25,17 @@
   flex: 1;
   position: relative;
   min-height: 44px;
-  background: white;
+  background: var(--bg-primary);
   border-radius: var(--radius-full);
-  padding: 0 var(--spacing-4);
+  padding: 0 var(--spacing-5);
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--border-color);
   transition: all var(--transition-fast);
+}
+
+[data-theme="dark"] .inputContainer {
+  background: var(--bg-tertiary);
+  border-color: var(--border-color-dark);
 }
 
 .inputContainer:focus-within {
@@ -42,7 +47,7 @@
   width: 100%;
   min-height: 44px;
   max-height: 120px;
-  padding: var(--spacing-2) 0;
+  padding: var(--spacing-3) var(--spacing-2);
   border: none;
   outline: none;
   font-family: var(--font-sans);
@@ -55,8 +60,18 @@
 }
 
 .messageInput::placeholder {
-  color: var(--text-secondary);
+  color: var(--text-muted);
   font-size: var(--text-base);
+  opacity: 0.7;
+}
+
+[data-theme="dark"] .messageInput {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .messageInput::placeholder {
+  color: var(--text-muted);
+  opacity: 0.6;
 }
 
 .emojiButton,

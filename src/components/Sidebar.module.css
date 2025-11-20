@@ -248,6 +248,29 @@
   right: var(--space-4);
 }
 
+.menuSeparator {
+  height: 1px;
+  background: var(--border-color);
+  margin: var(--space-2) var(--space-4);
+}
+
+.themeToggleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+  cursor: auto;
+  background: none !important;
+}
+
+.themeToggleContainer:hover {
+  background: none !important;
+}
+
+.themeToggleContainer:active {
+  transform: none !important;
+}
+
 @media (max-width: 768px) {
   .sidebar {
     width: 64px;

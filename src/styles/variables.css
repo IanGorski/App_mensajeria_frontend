@@ -158,17 +158,30 @@
   --blur-lg: blur(16px);
 }
 
-/* TEMA OSCURO QUE DEBO IMPLEMENTARLO DESPUES */
+/* TEMA OSCURO */
 
-/* [data-theme="dark"] {
-  --bg-primary: #0F172A;
-  --bg-secondary: #1E293B;
-  --bg-tertiary: #334155;
+[data-theme="dark"] {
+  --bg-primary: #0B141A;
+  --bg-secondary: #1F2C34;
+  --bg-tertiary: #2A3942;
+  --bg-hover: #374955;
+  --bg-overlay: rgba(0, 0, 0, 0.7);
   
-  --text-primary: #F1F5F9;
-  --text-secondary: #CBD5E1;
-  --text-muted: #64748B;
+  --text-primary: #E9EDEF;
+  --text-secondary: #A9B8C1;
+  --text-muted: #768991;
+  --text-disabled: #4A5B66;
   
-  --border-color: #334155;
-  --border-color-dark: #475569;
-} */
+  --border-color: #2A3942;
+  --border-color-dark: #374955;
+  --border-color-light: #1F2C34;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  
+  --shadow-primary: 0 4px 6px -1px rgba(6, 182, 212, 0.4), 0 2px 4px -1px rgba(6, 182, 212, 0.3);
+  --shadow-primary-lg: 0 10px 15px -3px rgba(6, 182, 212, 0.4), 0 4px 6px -2px rgba(6, 182, 212, 0.3);
+}

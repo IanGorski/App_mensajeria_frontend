@@ -21,23 +21,25 @@ export const SocketProvider = ({ children }) => {
     const [isConnected, setIsConnected] = useState(false);
 
     useEffect(() => {
-        // Tomar token según estrategia si existe
-        const token = AUTH_STRATEGY === 'cookie' ? null : getToken();
+        // Capturar token al inicio del effect para evitar problemas en cleanup
+        const initialToken = AUTH_STRATEGY === 'cookie' ? 'cookie' : getToken();
 
-        if (AUTH_STRATEGY === 'cookie' || token) {
+        if (AUTH_STRATEGY === 'cookie' || initialToken) {
             // Iniciar conexión de socket
-            // Conectar socket
-            const newSocket = socketService.connect(token || undefined);
+            const newSocket = socketService.connect(initialToken === 'cookie' ? undefined : initialToken);
 
-            // Guardar referencia inmediatamente para que los consumidores reciban el objeto
-            setSocket(newSocket);
+            // Limpieza detodos los eventos antes de registrar nuevos
+            newSocket.removeAllListeners();
 
-            // Configurar listeners
+            // Configurar listeners después de limpiar
             newSocket.on('connect', () => {
+                logger.debug('Socket conectado exitosamente');
                 setIsConnected(true);
+                setSocket(newSocket);
             });
 
             newSocket.on('disconnect', () => {
+                logger.debug('Socket desconectado');
                 setIsConnected(false);
             });
 
@@ -46,7 +48,7 @@ export const SocketProvider = ({ children }) => {
                 setIsConnected(false);
             });
 
-            // Si ya está conectado inmediatamente, setear el socket
+            // Si ya está conectado inmediatamente (reconexión), setear el socket
             if (newSocket.connected) {
                 setSocket(newSocket);
                 setIsConnected(true);
@@ -56,16 +58,19 @@ export const SocketProvider = ({ children }) => {
                 newSocket.off('connect');
                 newSocket.off('disconnect');
                 newSocket.off('connect_error');
-                // Solo desconectar si el usuario se desloguea (token ausente en modo token)
-                const currentToken = AUTH_STRATEGY === 'cookie' ? 'cookie' : getToken();
-                if (!currentToken) {
-                    socketService.disconnect();
-                    setSocket(null);
-                    setIsConnected(false);
+                // Usar el token capturado al inicio, no el actual
+                if (!initialToken || initialToken === 'cookie') {
+                    // Solo desconectar si no había token al inicio
+                    const currentToken = AUTH_STRATEGY === 'cookie' ? 'cookie' : getToken();
+                    if (!currentToken) {
+                        socketService.disconnect();
+                        setSocket(null);
+                        setIsConnected(false);
+                    }
                 }
             };
         } else {
-            // Si no hay usuario, desconectar
+            // Si no hay usuario/token, desconectar
             if (socket) {
                 socketService.disconnect();
                 setSocket(null);

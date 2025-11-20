@@ -4,39 +4,54 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: var(--z-modal);
-    animation: fadeIn 0.2s ease-out;
+    animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from { 
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+    to { 
+        opacity: 1;
+        backdrop-filter: blur(8px);
+    }
 }
 
 .modal {
-    background: white;
-    border-radius: var(--radius-xl);
-    padding: var(--spacing-6);
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
+    border-radius: var(--radius-2xl);
+    padding: 0;
     width: 90%;
-    max-width: 550px;
-    max-height: 85vh;
-    overflow-y: auto;
-    box-shadow: var(--shadow-2xl);
-    animation: slideUp 0.3s ease-out;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(6, 182, 212, 0.1);
+    animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+[data-theme="dark"] .modal {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
+    border-color: var(--border-color);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(6, 182, 212, 0.2);
 }
 
 @keyframes slideUp {
     from {
-        transform: translateY(30px);
+        transform: translateY(40px) scale(0.95);
         opacity: 0;
     }
     to {
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
         opacity: 1;
     }
 }
@@ -45,42 +60,93 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--spacing-6);
-    padding-bottom: var(--spacing-3);
-    border-bottom: 2px solid var(--border-color);
+    padding: var(--spacing-6);
+    background: linear-gradient(135deg, #06B6D4 0%, #0891B2 50%, #0E7490 100%);
+    color: white;
+    border-bottom: none;
+    margin-bottom: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.modalHeader::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+    transform: translateX(-100%);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+}
+
+.headerContent {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+}
+
+.headerIcon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .modalHeader h2 {
     margin: 0;
-    color: var(--text-primary);
+    color: white;
     font-size: var(--text-2xl);
     font-weight: 700;
     font-family: var(--font-display);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .closeButton {
-    background: transparent;
-    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     cursor: pointer;
-    color: var(--text-secondary);
+    color: white;
     width: 40px;
     height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    transition: all var(--transition-fast);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 1;
 }
 
 .closeButton:hover {
-    background: var(--bg-tertiary);
-    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.closeButton:active {
+    transform: rotate(90deg) scale(0.95);
 }
 
 .searchForm {
     display: flex;
     gap: var(--spacing-3);
     margin-bottom: var(--spacing-5);
+    padding: var(--spacing-6);
+    padding-top: var(--spacing-5);
 }
 
 .inputWrapper {
@@ -95,16 +161,33 @@
     transform: translateY(-50%);
     color: var(--text-secondary);
     pointer-events: none;
+    z-index: 1;
+}
+
+[data-theme="dark"] .inputIcon {
+    color: var(--text-muted);
 }
 
 .searchInput {
     width: 100%;
-    padding: var(--spacing-3) var(--spacing-4) var(--spacing-3) calc(var(--spacing-4) + 28px);
+    padding: var(--spacing-3) var(--spacing-4) var(--spacing-3) calc(var(--spacing-4) + 32px);
     border: 2px solid var(--border-color);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
     font-size: var(--text-base);
     font-family: var(--font-sans);
     transition: all var(--transition-fast);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .searchInput {
+    background: var(--bg-tertiary);
+    border-color: var(--border-color-dark);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .searchInput::placeholder {
+    color: var(--text-muted);
 }
 
 .searchInput:focus {
@@ -119,11 +202,11 @@
 }
 
 .searchButton {
-    padding: var(--spacing-3) var(--spacing-5);
+    padding: var(--spacing-3) var(--spacing-6);
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     color: white;
     border: none;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
     cursor: pointer;
     font-size: var(--text-base);
     font-weight: 600;
@@ -153,7 +236,7 @@
 
 .error {
     color: var(--error);
-    margin: var(--spacing-3) 0;
+    margin: 0 var(--spacing-6) var(--spacing-3) var(--spacing-6);
     padding: var(--spacing-3);
     background: var(--error-bg);
     border: 1px solid var(--error-border);
@@ -167,6 +250,7 @@
     gap: var(--spacing-3);
     max-height: 400px;
     overflow-y: auto;
+    padding: 0 var(--spacing-6) var(--spacing-6) var(--spacing-6);
 }
 
 .userResult {
@@ -174,16 +258,40 @@
     justify-content: space-between;
     align-items: center;
     padding: var(--spacing-4);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    background: var(--bg-secondary);
-    transition: all var(--transition-fast);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+[data-theme="dark"] .userResult {
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    border-color: var(--border-color-dark);
+}
+
+.userResult::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.05) 0%, rgba(6, 182, 212, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .userResult:hover {
-    background: var(--bg-tertiary);
+    background: linear-gradient(135deg, #ffffff 0%, #ccfbf1 100%);
     border-color: var(--primary);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 8px 16px rgba(6, 182, 212, 0.15), 0 0 0 1px rgba(6, 182, 212, 0.1);
+    transform: translateY(-2px);
+}
+
+.userResult:hover::before {
+    opacity: 1;
 }
 
 .userInfo {
@@ -248,34 +356,66 @@
 }
 
 .statusDot {
-    font-size: 10px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 4px;
+}
+
+.online .statusDot {
+    background-color: #00d856;
+    box-shadow: 0 0 4px rgba(0, 216, 86, 0.5);
+}
+
+.offline .statusDot {
+    background-color: #8696a0;
 }
 
 .addButton {
     padding: var(--spacing-2) var(--spacing-4);
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    background: linear-gradient(135deg, #06B6D4 0%, #0891B2 50%, #0E7490 100%);
     color: white;
     border: none;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     cursor: pointer;
     font-size: var(--text-sm);
     font-weight: 600;
     font-family: var(--font-sans);
-    transition: all var(--transition-fast);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     white-space: nowrap;
     display: flex;
     align-items: center;
     gap: var(--spacing-1);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.addButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .addButton:hover:not(:disabled) {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(6, 182, 212, 0.4);
+}
+
+.addButton:hover:not(:disabled)::before {
+    opacity: 1;
 }
 
 .addButton:active:not(:disabled) {
-    transform: translateY(0);
+    transform: translateY(0) scale(0.98);
 }
 
 .addButton:disabled {
