@@ -1,13 +1,13 @@
 .userCard {
   display: flex;
   align-items: center;
-  padding: 12px 16px;
+  padding: var(--space-3) var(--space-4);
   cursor: pointer;
   transition: all var(--transition-fast);
   border-bottom: 1px solid var(--border-color);
   background: var(--bg-primary);
   margin-bottom: 2px; 
-  gap: 16px;
+  gap: var(--space-4);
 }
 
 [data-theme="dark"] .userCard {
@@ -65,24 +65,24 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--spacing-1);
+  margin-bottom: var(--space-1);
 }
 
 .topRow h4 {
   margin: 0;
   font-size: var(--text-base);
-  font-weight: 600;
+  font-weight: var(--font-semibold);
   color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: var(--font-sans);
+  font-family: var(--font-primary);
 }
 
 .iconContainer {
   display: flex;
   align-items: center;
-  gap: var(--spacing-1);
+  gap: var(--space-1);
   flex-shrink: 0;
 }
 
@@ -90,15 +90,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  margin-right: var(--spacing-1);
+  font-size: var(--text-xs);
+  margin-right: var(--space-1);
   color: var(--text-secondary);
 }
 
 .time {
   font-size: var(--text-xs);
   color: var(--text-secondary);
-  margin-left: var(--spacing-2);
+  margin-left: var(--space-2);
   flex-shrink: 0;
 }
 
@@ -106,13 +106,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  margin-top: 4px;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
 }
 
 .lastMessage {
   margin: 0;
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--text-secondary);
   white-space: nowrap;
   overflow: hidden;
@@ -126,15 +126,15 @@
 
 .checkmarks {
   color: #53bdeb;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
   margin-right: 2px;
 }
 
 .badgeContainer {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-2);
   flex-shrink: 0;
 }
 
@@ -142,28 +142,39 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: var(--text-sm);
 }
 
 .unreadBadge {
-  background-color: #00a884;
-  color: transparent;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
   border-radius: 50%;
   width: 20px;
   height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
-  font-weight: 600;
-  margin-left: 8px;
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  margin-left: var(--space-2);
   flex-shrink: 0;
+  box-shadow: var(--shadow-primary);
+  animation: pulseUnread 2s ease-in-out infinite;
+}
+
+@keyframes pulseUnread {
+  0%, 100% {
+    box-shadow: var(--shadow-primary);
+  }
+  50% {
+    box-shadow: var(--shadow-primary-lg);
+  }
 }
 
 @media (max-width: 480px) {
   .userCard {
-    padding: 8px 12px;
-    gap: 12px;
+    padding: var(--space-2) var(--space-3);
+    gap: var(--space-3);
   }
 
   .avatar {
@@ -198,14 +209,14 @@
     font-size: 10px;
     min-width: 16px;
     height: 16px;
-    padding: 0 4px;
+    padding: 0 var(--space-1);
   }
 }
 
 @media (min-width: 481px) and (max-width: 768px) {
   .userCard {
-    padding: 10px 14px;
-    gap: 14px;
+    padding: var(--space-2) var(--space-3);
+    gap: var(--space-3);
   }
 
   .avatar {

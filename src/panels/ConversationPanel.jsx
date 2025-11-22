@@ -203,22 +203,21 @@ const ConversationPanel = ({ activeConversation, onDeleteMessage }) => {
   if (!activeConversation) {
     return (
       <div className={styles.conversationPanel}>
-        {!isMobile && <div className={styles.leftFranja}></div>}
+        {!isMobile && <div className={styles.leftSidebar}></div>}
         <div className={styles.chatSection}>
           <div className={styles.emptyState}>
-            <h3>WhatsApp para Windows</h3>
+            <h3>Aplicación Mensajería</h3>
             <p>Envía y recibe mensajes sin mantener tu teléfono conectado.</p>
-            <p>Usa Whatsapp en hasta 4 dispositivos vinculados y 1 teléfono a la vez.</p>
           </div>
         </div>
-        {!isMobile && <div className={styles.rightFranja}></div>}
+        {!isMobile && <div className={styles.rightSidebar}></div>}
       </div>
     );
   }
 
   return (
     <div className={styles.conversationPanel}>
-      {!isMobile && <div className={styles.leftFranja}></div>}
+      {!isMobile && <div className={styles.leftSidebar}></div>}
       <div className={styles.chatSection}>
         <div className={styles.conversationHeader}>
         {isMobile && (
@@ -331,7 +330,7 @@ const ConversationPanel = ({ activeConversation, onDeleteMessage }) => {
         onTypingChange={handleInputChange}
       />
       </div>
-      {!isMobile && <div className={styles.rightFranja}></div>}
+      {!isMobile && <div className={styles.rightSidebar}></div>}
     </div>
   );
 };

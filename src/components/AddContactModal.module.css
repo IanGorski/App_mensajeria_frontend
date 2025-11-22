@@ -4,13 +4,13 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(8px);
+    background: var(--bg-overlay);
+    backdrop-filter: var(--blur-md);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: var(--z-modal);
-    animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fadeIn var(--transition-base);
 }
 
 @keyframes fadeIn {
@@ -20,7 +20,7 @@
     }
     to { 
         opacity: 1;
-        backdrop-filter: blur(8px);
+        backdrop-filter: var(--blur-md);
     }
 }
 
@@ -60,8 +60,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--spacing-6);
-    background: linear-gradient(135deg, #06B6D4 0%, #0891B2 50%, #0E7490 100%);
+    padding: var(--space-6);
+    background: linear-gradient(135deg, var(--primary-dark) 100%);
     color: white;
     border-bottom: none;
     margin-bottom: 0;
@@ -89,7 +89,7 @@
 .headerContent {
     display: flex;
     align-items: center;
-    gap: var(--spacing-3);
+    gap: var(--space-3);
 }
 
 .headerIcon {
@@ -109,8 +109,8 @@
     margin: 0;
     color: white;
     font-size: var(--text-2xl);
-    font-weight: 700;
-    font-family: var(--font-display);
+    font-weight: var(--font-bold);
+    font-family: var(--font-heading);
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -143,10 +143,10 @@
 
 .searchForm {
     display: flex;
-    gap: var(--spacing-3);
-    margin-bottom: var(--spacing-5);
-    padding: var(--spacing-6);
-    padding-top: var(--spacing-5);
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+    padding: var(--space-6);
+    padding-top: var(--space-5);
 }
 
 .inputWrapper {
@@ -156,7 +156,7 @@
 
 .inputIcon {
     position: absolute;
-    left: var(--spacing-4);
+    left: var(--space-4);
     top: 50%;
     transform: translateY(-50%);
     color: var(--text-secondary);
@@ -170,11 +170,11 @@
 
 .searchInput {
     width: 100%;
-    padding: var(--spacing-3) var(--spacing-4) var(--spacing-3) calc(var(--spacing-4) + 32px);
+    padding: var(--space-3) var(--space-4) var(--space-3) calc(var(--space-4) + 32px);
     border: 2px solid var(--border-color);
     border-radius: var(--radius-xl);
     font-size: var(--text-base);
-    font-family: var(--font-sans);
+    font-family: var(--font-primary);
     transition: all var(--transition-fast);
     background: var(--bg-primary);
     color: var(--text-primary);
@@ -202,19 +202,19 @@
 }
 
 .searchButton {
-    padding: var(--spacing-3) var(--spacing-6);
+    padding: var(--space-3) var(--space-6);
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     color: white;
     border: none;
     border-radius: var(--radius-xl);
     cursor: pointer;
     font-size: var(--text-base);
-    font-weight: 600;
-    font-family: var(--font-sans);
+    font-weight: var(--font-semibold);
+    font-family: var(--font-primary);
     transition: all var(--transition-fast);
     display: flex;
     align-items: center;
-    gap: var(--spacing-2);
+    gap: var(--space-2);
     box-shadow: var(--shadow-primary);
     white-space: nowrap;
 }
@@ -229,7 +229,7 @@
 }
 
 .searchButton:disabled {
-    background: var(--text-tertiary);
+    background: var(--text-disabled);
     cursor: not-allowed;
     box-shadow: none;
 }
@@ -373,21 +373,21 @@
 }
 
 .addButton {
-    padding: var(--spacing-2) var(--spacing-4);
-    background: linear-gradient(135deg, #06B6D4 0%, #0891B2 50%, #0E7490 100%);
+    padding: var(--space-2) var(--space-4);
+    background: linear-gradient(135deg, var(--info) 0%, var(--info-dark) 100%);
     color: white;
     border: none;
     border-radius: var(--radius-lg);
     cursor: pointer;
     font-size: var(--text-sm);
-    font-weight: 600;
-    font-family: var(--font-sans);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: var(--font-semibold);
+    font-family: var(--font-primary);
+    transition: all var(--transition-base);
     white-space: nowrap;
     display: flex;
     align-items: center;
-    gap: var(--spacing-1);
-    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+    gap: var(--space-1);
+    box-shadow: var(--shadow-md);
     position: relative;
     overflow: hidden;
     z-index: 1;
@@ -402,12 +402,12 @@
     bottom: 0;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity var(--transition-base);
 }
 
 .addButton:hover:not(:disabled) {
     transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 8px 20px rgba(6, 182, 212, 0.4);
+    box-shadow: var(--shadow-lg);
 }
 
 .addButton:hover:not(:disabled)::before {
@@ -419,7 +419,7 @@
 }
 
 .addButton:disabled {
-    background: var(--text-tertiary);
+    background: var(--text-disabled);
     cursor: not-allowed;
     box-shadow: none;
 }

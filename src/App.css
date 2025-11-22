@@ -3,11 +3,11 @@
   height: 100vh;
   height: 100dvh; 
   width: 100vw;
-  background-color: #f0f2f5;
+  background: var(--bg-secondary);
   overflow: hidden;
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: var(--font-primary);
   position: fixed;
   top: 0;
   left: 0;
@@ -16,12 +16,12 @@
 .content {
   display: flex;
   flex: 1;
-  transition: margin-left 0.3s ease;
+  transition: margin-left var(--transition-base);
   position: relative;
   height: 100vh;
   height: 100dvh; 
   overflow: hidden;
-  margin-left: 0; /* sin gap inicial */
+  margin-left: 0;
 }
 
 .content.fullWidth {
@@ -35,53 +35,50 @@
   justify-content: center;
   width: 100%;
   height: 100vh;
-  background-color: #f0f2f5;
-  color: #54656f;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
   text-align: center;
 }
 
 .comingSoon h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: #111b21;
+  font-size: var(--text-4xl);
+  margin-bottom: var(--space-4);
+  color: var(--text-primary);
 }
 
 .comingSoon p {
-  font-size: 1.1rem;
+  font-size: var(--text-lg);
   opacity: 0.7;
 }
 
-/*---*/
 @media (max-width: 320px) {
   .comingSoon h2 {
-    font-size: 1.2rem;
+    font-size: var(--text-xl);
   }
 
   .comingSoon p {
-    font-size: 0.9rem;
-    padding: 0 10px;
+    font-size: var(--text-sm);
+    padding: 0 var(--space-2);
   }
 }
 
-/*---*/
 @media (min-width: 321px) and (max-width: 480px) {
   .comingSoon h2 {
-    font-size: 1.4rem;
+    font-size: var(--text-2xl);
   }
 
   .comingSoon p {
-    font-size: 1rem;
-    padding: 0 15px;
+    font-size: var(--text-base);
+    padding: 0 var(--space-4);
   }
 }
 
-/*---*/
 @media (min-width: 481px) and (max-width: 768px) {
   .comingSoon h2 {
-    font-size: 1.6rem;
+    font-size: var(--text-3xl);
   }
 
   .comingSoon p {
-    font-size: 1rem;
+    font-size: var(--text-base);
   }
 }

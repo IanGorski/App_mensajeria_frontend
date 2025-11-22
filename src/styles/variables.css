@@ -1,17 +1,17 @@
 :root {
-  /* ============ COLORES ============ */
+  /* COLORES */
   
   /* Colores Principales */
-  --primary: #06B6D4;
-  --primary-light: #22D3EE;
-  --primary-dark: #0891B2;
-  --primary-hover: #0284C7;
+  --primary: #ff6b6b;
+  --primary-light: #ff8787;
+  --primary-dark: #ee5a6f;
+  --primary-hover: #c44569;
   
   /* Colores de Fondo */
   --bg-primary: #FFFFFF;
-  --bg-secondary: #F0FDFA;
-  --bg-tertiary: #CCFBF1;
-  --bg-hover: #F9FAFB;
+  --bg-secondary: #FFF5F5;
+  --bg-tertiary: #FFE5E5;
+  --bg-hover: #FFF0F0;
   --bg-overlay: rgba(0, 0, 0, 0.4);
   
   /* Textos */
@@ -22,9 +22,9 @@
   --text-white: #FFFFFF;
   
   /* Acentos */
-  --success: #14B8A6;
-  --success-light: #5EEAD4;
-  --success-dark: #0D9488;
+  --success: #10b981;
+  --success-light: #34d399;
+  --success-dark: #059669;
   
   --warning: #F59E0B;
   --warning-light: #FCD34D;
@@ -113,8 +113,8 @@
   --shadow-none: none;
   
   /* Sombras con color primario */
-  --shadow-primary: 0 4px 6px -1px rgba(6, 182, 212, 0.3), 0 2px 4px -1px rgba(6, 182, 212, 0.2);
-  --shadow-primary-lg: 0 10px 15px -3px rgba(6, 182, 212, 0.3), 0 4px 6px -2px rgba(6, 182, 212, 0.2);
+  --shadow-primary: 0 4px 6px -1px rgba(255, 107, 107, 0.3), 0 2px 4px -1px rgba(255, 107, 107, 0.2);
+  --shadow-primary-lg: 0 10px 15px -3px rgba(255, 107, 107, 0.3), 0 4px 6px -2px rgba(255, 107, 107, 0.2);
   
   /* Transiciones */
   
@@ -134,7 +134,7 @@
   --z-popover: 1100;
   --z-tooltip: 1200;
   
-  /* Breakpoints para tener referencias */
+  /* Breakpoints referencias */
   
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;
@@ -176,12 +176,18 @@
   --border-color-dark: #374955;
   --border-color-light: #1F2C34;
 
+  /* Ajustes primarios para el tema oscuro */
+  --primary: #ff8787;
+  --primary-light: #ffa5a5;
+  --primary-dark: #ff6b6b;
+  --primary-hover: #ee5a6f;
+
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
   --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
   
-  --shadow-primary: 0 4px 6px -1px rgba(6, 182, 212, 0.4), 0 2px 4px -1px rgba(6, 182, 212, 0.3);
-  --shadow-primary-lg: 0 10px 15px -3px rgba(6, 182, 212, 0.4), 0 4px 6px -2px rgba(6, 182, 212, 0.3);
+  --shadow-primary: 0 4px 6px -1px rgba(255, 135, 135, 0.4), 0 2px 4px -1px rgba(255, 135, 135, 0.3);
+  --shadow-primary-lg: 0 10px 15px -3px rgba(255, 135, 135, 0.4), 0 4px 6px -2px rgba(255, 135, 135, 0.3);
 }

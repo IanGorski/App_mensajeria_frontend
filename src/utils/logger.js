@@ -1,7 +1,7 @@
 // Logger utilitario: eliminar emojis
 const isDev = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.DEV;
-// Permitir logs en producción, defino variable
-const enableLogs = import.meta.env.VITE_ENABLE_LOGS === 'true' || isDev;
+// Permitir logs en producción siempre (para ver en consola del navegador)
+const enableLogs = true;
 
 // Remover emojis para consola limpia
 const stripEmojis = (value) => {
@@ -69,12 +69,11 @@ const sanitizeSensitiveData = (data) => {
 const noop = () => {};
 
 const processArgs = (args) => {
-	if (!isDev) return args;
 	return args.map(arg => sanitizeSensitiveData(sanitizeArgs([arg])[0]));
 };
 
 export const log = enableLogs ? (...args) => console.log(...processArgs(args)) : noop;
-export const debug = isDev ? (...args) => console.debug(...processArgs(args)) : noop;
+export const debug = enableLogs ? (...args) => console.debug(...processArgs(args)) : noop;
 export const warn = enableLogs ? (...args) => console.warn(...processArgs(args)) : noop;
 export const error = (...args) => console.error(...sanitizeArgs(args)); // Los errores siempre se van a registrar
 
