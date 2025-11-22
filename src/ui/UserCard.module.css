@@ -159,3 +159,70 @@
   margin-left: 8px;
   flex-shrink: 0;
 }
+
+@media (max-width: 480px) {
+  .userCard {
+    padding: 8px 12px;
+    gap: 12px;
+  }
+
+  .avatar {
+    width: 42px;
+    height: 42px;
+    font-size: var(--text-base);
+  }
+
+  .onlineIndicator {
+    width: 11px;
+    height: 11px;
+    border-width: 1.5px;
+  }
+
+  .topRow h4 {
+    font-size: var(--text-sm);
+  }
+
+  .time {
+    font-size: 10px;
+  }
+
+  .pinnedIcon {
+    font-size: 10px;
+  }
+
+  .lastMessage {
+    font-size: var(--text-xs);
+  }
+
+  .unreadBadge {
+    font-size: 10px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .userCard {
+    padding: 10px 14px;
+    gap: 14px;
+  }
+
+  .avatar {
+    width: 48px;
+    height: 48px;
+  }
+
+  .onlineIndicator {
+    width: 12px;
+    height: 12px;
+  }
+
+  .topRow h4 {
+    font-size: 15px;
+  }
+
+  .time {
+    font-size: 11px;
+  }
+}

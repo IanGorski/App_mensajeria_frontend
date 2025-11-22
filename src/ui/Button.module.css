@@ -1,0 +1,258 @@
+﻿/* ===== BUTTON COMPONENT MODERN RED DESIGN ===== */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-weight: 700;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  text-decoration: none;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  font-size: 1rem;
+  letter-spacing: 0.3px;
+}
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+/* Ripple Effect */
+.button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+/* ===== VARIANTS ===== */
+/* Primary Button - Red Gradient */
+.primary {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+  color: white;
+  box-shadow: 
+    0 8px 24px rgba(255, 107, 107, 0.35),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+.primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.2) 100%);
+  border-radius: 14px;
+}
+.primary:hover:not(:disabled) {
+  box-shadow: 
+    0 12px 32px rgba(255, 107, 107, 0.45),
+    0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px) scale(1.02);
+}
+.primary:active:not(:disabled) {
+  transform: translateY(-2px) scale(0.98);
+  box-shadow: 
+    0 6px 16px rgba(255, 107, 107, 0.35),
+    0 2px 8px rgba(0, 0, 0, 0.15);
+}
+/* Secondary Button */
+.secondary {
+  background: rgba(255, 255, 255, 0.95);
+  color: #ff6b6b;
+  border: 2px solid #ff6b6b;
+  box-shadow: 
+    0 4px 12px rgba(255, 107, 107, 0.15);
+}
+.secondary:hover:not(:disabled) {
+  background: rgba(255, 107, 107, 0.08);
+  border-color: #ee5a6f;
+  color: #ee5a6f;
+  box-shadow: 
+    0 8px 20px rgba(255, 107, 107, 0.25);
+  transform: translateY(-3px);
+}
+.secondary:active:not(:disabled) {
+  transform: translateY(-1px);
+}
+/* Danger Button */
+.danger {
+  background: linear-gradient(135deg, #dc3545, #b91c1c);
+  color: white;
+  box-shadow: 
+    0 8px 24px rgba(220, 53, 69, 0.35),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.danger:hover:not(:disabled) {
+  box-shadow: 
+    0 12px 32px rgba(220, 53, 69, 0.45),
+    0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px) scale(1.02);
+}
+.danger:active:not(:disabled) {
+  transform: translateY(-2px) scale(0.98);
+}
+/* Success Button */
+.success {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  box-shadow: 
+    0 8px 24px rgba(40, 167, 69, 0.35),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.success:hover:not(:disabled) {
+  box-shadow: 
+    0 12px 32px rgba(40, 167, 69, 0.45),
+    0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px) scale(1.02);
+}
+.success:active:not(:disabled) {
+  transform: translateY(-2px) scale(0.98);
+}
+/* Ghost Button */
+.ghost {
+  background: transparent;
+  color: #ff6b6b;
+  border: 2px solid #ff6b6b;
+  box-shadow: none;
+}
+.ghost:hover:not(:disabled) {
+  background: rgba(255, 107, 107, 0.1);
+  border-color: #ee5a6f;
+  color: #ee5a6f;
+  transform: translateY(-2px);
+}
+.ghost:active:not(:disabled) {
+  transform: translateY(0);
+}
+/* ===== SIZES ===== */
+.small {
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  border-radius: 12px;
+  letter-spacing: 0.2px;
+}
+.medium {
+  padding: 0.875rem 1.75rem;
+  font-size: 1rem;
+  border-radius: 14px;
+  letter-spacing: 0.3px;
+}
+.large {
+  padding: 1.125rem 2.25rem;
+  font-size: 1.125rem;
+  border-radius: 16px;
+  letter-spacing: 0.4px;
+}
+/* Full Width */
+.fullWidth {
+  width: 100%;
+}
+/* Loading State */
+.loading {
+  position: relative;
+  color: transparent;
+  pointer-events: none;
+}
+
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+}
+
+.spinnerSvg {
+  animation: rotate 2s linear infinite;
+  width: 100%;
+  height: 100%;
+}
+
+.spinnerPath {
+  stroke: currentColor;
+  stroke-linecap: round;
+  animation: dash 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124;
+  }
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 50%;
+  left: 50%;
+  margin-left: -9px;
+  margin-top: -9px;
+  border: 2.5px solid currentColor;
+  border-radius: 50%;
+  border-right-color: transparent;
+  animation: spinnerLoader 0.6s linear infinite;
+}
+@keyframes spinnerLoader {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* Icon Styles */
+.iconLeft {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.25rem;
+}
+.iconRight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.25rem;
+}
+
+.text {
+  display: inline-block;
+}
+/* Focus Visible State */
+.button:focus-visible {
+  outline: 3px solid rgba(255, 107, 107, 0.5);
+  outline-offset: 3px;
+}
+/* Responsive */
+@media (max-width: 480px) {
+  .large {
+    padding: 0.875rem 1.75rem;
+    font-size: 1rem;
+  }
+  .button {
+    border-radius: 12px;
+  }
+}

@@ -1,9 +1,7 @@
 {
-  "redirects": [
-    {
-      "source": "/*",
-      "destination": "/index.html",
-      "type": 200
-    }
-  ]
+  "root": "dist",
+  "clean_urls": false,
+  "routes": {
+    "/**": "index.html"
+  }
 }

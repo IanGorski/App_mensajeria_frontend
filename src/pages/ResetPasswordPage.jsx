@@ -67,7 +67,7 @@ const ResetPasswordPage = () => {
         <div className={styles.card}>
           <div className={styles.header}>
             <Lock size={48} className={styles.icon} />
-            <h1>Verificando enlace…</h1>
+            <h1>Verificando tu enlace...</h1>
             <p>Por favor espera un momento.</p>
           </div>
         </div>
@@ -104,7 +104,7 @@ const ResetPasswordPage = () => {
             <CheckCircle size={64} />
           </div>
           <h2>¡Contraseña actualizada!</h2>
-          <p>Ya podés iniciar sesión con tu nueva contraseña.</p>
+          <p>Tu contraseña se ha actualizado correctamente. Ahora puedes acceder con tu nueva contraseña.</p>
           <Button variant="primary" size="lg" fullWidth onClick={() => navigate('/login')}>
             Ir a iniciar sesión
           </Button>
@@ -118,13 +118,13 @@ const ResetPasswordPage = () => {
       <div className={styles.card}>
         <Link to="/login" className={styles.backButton}>
           <ArrowLeft size={20} />
-          Volver
+          Atrás
         </Link>
 
         <div className={styles.header}>
           <Lock size={48} className={styles.icon} />
           <h1>Restablecer contraseña</h1>
-          <p>Ingresá tu nueva contraseña y confirmala para continuar.</p>
+          <p>Ingresa tu nueva contraseña y confírmala para continuar.</p>
         </div>
 
         <form onSubmit={handleSubmit} className={styles.form}>
@@ -151,7 +151,7 @@ const ResetPasswordPage = () => {
           />
 
           <Button type="submit" variant="primary" size="lg" fullWidth loading={loading}>
-            Actualizar contraseña
+            Actualizar mi contraseña
           </Button>
         </form>
       </div>

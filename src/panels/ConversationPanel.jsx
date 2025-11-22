@@ -9,6 +9,7 @@ import { useAuth } from '../context/AuthContext';
 import { useRealtimeMessages } from '../hooks/useRealtimeMessages';
 import { useTypingIndicator } from '../hooks/useTypingIndicator';
 import { useUserStatus } from '../hooks/useUserStatus';
+import logger from '../utils/logger';
 
 const ConversationPanel = ({ activeConversation, onDeleteMessage }) => {
   const navigate = useNavigate();
@@ -96,17 +97,19 @@ const ConversationPanel = ({ activeConversation, onDeleteMessage }) => {
   };
 
   const handleSendMessage = (messageContent) => {
-    // debug solo en dev
-    // logger.debug('Enviando mensaje desde ConversationPanel:', { chatId: activeConversation?.id, content: messageContent });
-    
-    // Enviar mensaje por Socket.IO en tiempo real
     sendRealtimeMessage(messageContent);
   };
 
   const handleInputChange = (isTyping) => {
     if (isTyping) {
-      // Usuario está escribiendo
-      startTyping();
+      // Solo iniciar typing si no hay timeout activo (primera vez que escribe)
+      if (!typingTimeoutRef.current) {
+        startTyping();
+        logger.debug('[Typing] Usuario comenzó a escribir', { 
+          chatId: activeConversation?.id, 
+          userId: user?.id 
+        });
+      }
       
       // Limpiar timeout anterior
       if (typingTimeoutRef.current) {
@@ -116,12 +119,14 @@ const ConversationPanel = ({ activeConversation, onDeleteMessage }) => {
       // Después de 3 segundos sin escribir, enviar stopTyping
       typingTimeoutRef.current = setTimeout(() => {
         stopTyping();
+        typingTimeoutRef.current = null;
       }, 3000);
     } else {
       // Usuario dejó de escribir
       stopTyping();
       if (typingTimeoutRef.current) {
         clearTimeout(typingTimeoutRef.current);
+        typingTimeoutRef.current = null;
       }
     }
   };
@@ -135,8 +140,6 @@ const ConversationPanel = ({ activeConversation, onDeleteMessage }) => {
     }
   };
 
-  // Función para resaltar texto en los mensajes, lupa.
-  
   // Manejar el cambio en el término de búsqueda
   const handleSearchChange = (e) => {
     const newSearchTerm = e.target.value;
@@ -169,7 +172,7 @@ const ConversationPanel = ({ activeConversation, onDeleteMessage }) => {
     }
   };
 
-  // Función para obtener los mensajes a mostrar // realtimeMessages
+  // Función para obtener los mensajes a mostrar
   const getMessagesToShow = () => {
     // RealtimeMessages ya contiene todos los mensajes (cargados + nuevos)
     const messagesToShow = realtimeMessages.map(msg => ({
@@ -192,9 +195,9 @@ const ConversationPanel = ({ activeConversation, onDeleteMessage }) => {
     });
   };
 
-  // Funcionalidad pendiente de implementación
   const handleIconClick = () => {
-    // TODO: Implementar funcionalidad de llamada/videollamada
+    // Funcionalidad de llamada/videollamada que aun no la implementé
+    logger.info('[Llamada] Funcionalidad en desarrollo');
   };
 
   if (!activeConversation) {

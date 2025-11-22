@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Button.css';
+import styles from './Button.module.css';
 
 /**
  * @param {Object} props
@@ -29,11 +29,11 @@ const Button = ({
   ...props
 }) => {
   const buttonClasses = [
-    'btn',
-    `btn-${variant}`,
-    `btn-${size}`,
-    fullWidth && 'btn-full-width',
-    loading && 'btn-loading',
+    styles.button,
+    styles[variant],
+    styles[size],
+    fullWidth && styles.fullWidth,
+    loading && styles.loading,
     className
   ].filter(Boolean).join(' ');
 
@@ -45,10 +45,10 @@ const Button = ({
       {...props}
     >
       {loading && (
-        <span className="btn-spinner" aria-hidden="true">
-          <svg className="spinner" viewBox="0 0 50 50">
+        <span className={styles.spinner} aria-hidden="true">
+          <svg className={styles.spinnerSvg} viewBox="0 0 50 50">
             <circle
-              className="path"
+              className={styles.spinnerPath}
               cx="25"
               cy="25"
               r="20"
@@ -60,15 +60,15 @@ const Button = ({
       )}
       
       {!loading && leftIcon && (
-        <span className="btn-icon btn-icon-left">
+        <span className={styles.iconLeft}>
           {leftIcon}
         </span>
       )}
       
-      {children && <span className="btn-text">{children}</span>}
+      {children && <span className={styles.text}>{children}</span>}
       
       {!loading && rightIcon && (
-        <span className="btn-icon btn-icon-right">
+        <span className={styles.iconRight}>
           {rightIcon}
         </span>
       )}

@@ -33,18 +33,22 @@ export const SocketProvider = ({ children }) => {
 
             // Configurar listeners después de limpiar
             newSocket.on('connect', () => {
-                logger.debug('Socket conectado exitosamente');
+                logger.debug('[Socket] Conectado exitosamente', { socketId: newSocket.id, connected: true });
                 setIsConnected(true);
                 setSocket(newSocket);
             });
 
             newSocket.on('disconnect', () => {
-                logger.debug('Socket desconectado');
+                logger.debug('[Socket] Desconectado', { previousSocketId: newSocket.id, connected: false });
                 setIsConnected(false);
             });
 
             newSocket.on('connect_error', (error) => {
-                logger.error('Error de conexión Socket:', error.message);
+                logger.error('[Socket] Error de conexión', { 
+                    error: error.message, 
+                    code: error.code,
+                    type: error.type 
+                });
                 setIsConnected(false);
             });
 

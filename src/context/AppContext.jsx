@@ -31,7 +31,11 @@ export const AppProvider = ({ children }) => {
                 requestStatusSync();
             }
         } catch (error) {
-            logger.error("Error al cargar chats:", error);
+            logger.error('[Chats] Error al cargar conversaciones', { 
+                error: error.message,
+                userId: user?.id,
+                hasSocket: !!socket
+            });
         }
     }, [socket, isConnected, requestStatusSync, user]);
 
@@ -54,14 +58,22 @@ export const AppProvider = ({ children }) => {
             const response = await apiService.request(`/messages/${chatId}`);
             return response.data || [];
         } catch (error) {
-            logger.error("Error al cargar mensajes:", error);
+            logger.error('[Mensajes] Error al cargar historial', { 
+                error: error.message,
+                chatId,
+                userId: user?.id
+            });
             return [];
         }
     };
 
     const handleSelectContact = useCallback(async (contact) => {
         if (!contact || !contact.id) {
-            logger.error('[AppContext] Contacto inválido:', contact);
+            logger.error('[Chat] Contacto inválido al seleccionar', { 
+                hasContact: !!contact,
+                hasId: !!(contact?.id),
+                contactData: contact
+            });
             return;
         }
 
@@ -69,7 +81,11 @@ export const AppProvider = ({ children }) => {
         
         // Verificar si ya está seleccionado para evitar llamadas duplicadas
         if (activeConversation && activeConversation.id === normalized.id) {
-            logger.debug('[AppContext] Conversación ya activa, saltando selección');
+            logger.debug('[Chat] Conversación ya activa', { 
+                chatId: normalized.id,
+                chatName: normalized.name,
+                action: 'saltar_seleccion'
+            });
             return;
         }
 

@@ -9,6 +9,7 @@ const __dirname = dirname(__filename);
 
 export default defineConfig({
   plugins: [react()],
+  base: '/',
   server: {
     host: '0.0.0.0',
     setupMiddlewares: (middlewares, server) => {
@@ -23,8 +24,11 @@ export default defineConfig({
     }
   },
   build: {
+    outDir: 'dist',
     rollupOptions: {
-      external: ['@mui/icons-material']
+      output: {
+        manualChunks: undefined
+      }
     }
   },
   resolve: {

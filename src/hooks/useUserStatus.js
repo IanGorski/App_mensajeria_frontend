@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { useSocketContext } from '../context/SocketContext';
 import socketService from '../services/socket.service';
 import logger from '../utils/logger';
@@ -6,6 +6,7 @@ import logger from '../utils/logger';
 export const useUserStatus = () => {
     const { socket, isConnected } = useSocketContext();
     const [userStatuses, setUserStatuses] = useState({});
+    const lastLoggedStatusRef = useRef({});
 
     useEffect(() => {
         const s = socket || socketService.getSocket();
@@ -13,7 +14,15 @@ export const useUserStatus = () => {
         if (!s || !connected) return;
 
         const handleStatusChanged = ({ user_id, online, last_connection }) => {
-            logger.debug('Estado de usuario cambió:', { user_id, online, last_connection });
+            // Solo registrar log si el estado realmente cambió
+            const lastStatus = lastLoggedStatusRef.current[user_id];
+            const statusChanged = !lastStatus || lastStatus.online !== online;
+            
+            if (statusChanged) {
+                logger.debug('Estado de usuario cambió:', { user_id, online, last_connection });
+                lastLoggedStatusRef.current[user_id] = { online, last_connection };
+            }
+            
             setUserStatuses(prev => ({
                 ...prev,
                 [user_id]: { online, last_connection }

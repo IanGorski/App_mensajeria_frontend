@@ -1,6 +1,6 @@
 import React, { useState, forwardRef } from 'react';
 import PropTypes from 'prop-types';
-import './Input.css';
+import styles from './Input.module.css';
 
 /**
  * Componente Input 
@@ -37,22 +37,17 @@ const Input = forwardRef(({
   const [showPassword, setShowPassword] = useState(false);
 
   const hasValue = value && value.length > 0;
-  const isFloating = isFocused || hasValue;
 
   const inputClasses = [
-    'input-field',
-    leftIcon && 'input-with-left-icon',
-    rightIcon && 'input-with-right-icon',
-    error && 'input-error',
-    disabled && 'input-disabled',
+    styles.input,
+    leftIcon && styles.withLeftIcon,
+    rightIcon && styles.withRightIcon,
+    error && styles.error,
     className
   ].filter(Boolean).join(' ');
 
   const containerClasses = [
-    'input-container',
-    isFloating && 'input-floating',
-    error && 'input-has-error',
-    disabled && 'input-is-disabled'
+    styles.container
   ].filter(Boolean).join(' ');
 
   const handleTogglePassword = () => {
@@ -63,9 +58,15 @@ const Input = forwardRef(({
 
   return (
     <div className={containerClasses}>
-      <div className="input-wrapper">
+      {label && (
+        <label className={`${styles.label} ${required ? styles.required : ''}`}>
+          {label}
+        </label>
+      )}
+      
+      <div className={styles.wrapper}>
         {leftIcon && (
-          <span className="input-icon input-icon-left">
+          <span className={styles.iconLeft}>
             {leftIcon}
           </span>
         )}
@@ -80,21 +81,14 @@ const Input = forwardRef(({
           onBlur={() => setIsFocused(false)}
           disabled={disabled}
           required={required}
-          placeholder={isFloating ? placeholder : ''}
+          placeholder={placeholder}
           {...props}
         />
-
-        {label && (
-          <label className="input-label">
-            {label}
-            {required && <span className="input-required">*</span>}
-          </label>
-        )}
 
         {type === 'password' && (
           <button
             type="button"
-            className="input-icon input-icon-right input-password-toggle"
+            className={`${styles.iconRight} ${styles.passwordToggle}`}
             onClick={handleTogglePassword}
             tabIndex={-1}
             aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
@@ -114,27 +108,20 @@ const Input = forwardRef(({
         )}
 
         {rightIcon && type !== 'password' && (
-          <span className="input-icon input-icon-right">
+          <span className={styles.iconRight}>
             {rightIcon}
           </span>
         )}
       </div>
 
-      {(error || helperText) && (
-        <div className="input-message">
-          {error ? (
-            <span className="input-error-message">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10" />
-                <line x1="12" y1="8" x2="12" y2="12" />
-                <line x1="12" y1="16" x2="12.01" y2="16" />
-              </svg>
-              {error}
-            </span>
-          ) : (
-            <span className="input-helper-text">{helperText}</span>
-          )}
+      {error && (
+        <div className={styles.errorMessage}>
+          {error}
         </div>
+      )}
+      
+      {!error && helperText && (
+        <span className={styles.helperText}>{helperText}</span>
       )}
     </div>
   );

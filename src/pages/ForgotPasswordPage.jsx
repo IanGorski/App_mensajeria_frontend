@@ -38,13 +38,12 @@ const ForgotPasswordPage = () => {
           <div className={styles.successIcon}>
             <CheckCircle size={64} />
           </div>
-          <h2>¡Correo Enviado!</h2>
+          <h2>¡Correo enviado exitosamente!</h2>
           <p>
-            Hemos enviado un correo a <strong>{email}</strong> con instrucciones
-            para restablecer tu contraseña.
+            Hemos enviado un enlace de recuperación a <strong>{email}</strong>. Por favor, revisa tu bandeja de entrada (incluye la carpeta de spam).
           </p>
           <p className={styles.hint}>
-            Por favor, revisa tu bandeja de entrada y la carpeta de spam.
+            El enlace expirará en 30 minutos por tu seguridad.
           </p>
           <Link to="/login" className={styles.backLink}>
             <Button variant="primary" size="lg" fullWidth>
@@ -61,15 +60,14 @@ const ForgotPasswordPage = () => {
       <div className={styles.card}>
         <Link to="/login" className={styles.backButton}>
           <ArrowLeft size={20} />
-          Volver
+          Atrás
         </Link>
 
         <div className={styles.header}>
           <Mail size={48} className={styles.icon} />
           <h1>¿Olvidaste tu contraseña?</h1>
           <p>
-            Ingresa tu correo electrónico y te enviaremos instrucciones para
-            restablecer tu contraseña.
+            Ingresa tu correo y te enviaremos un enlace para recuperar tu acceso.
           </p>
         </div>
 
@@ -82,12 +80,12 @@ const ForgotPasswordPage = () => {
 
           <Input
             type="email"
-            label="Correo electrónico"
+            label="Tu correo electrónico"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
             leftIcon={<Mail size={20} />}
-            placeholder="tu@email.com"
+            placeholder="nombre@ejemplo.com"
           />
 
           <Button
@@ -97,13 +95,13 @@ const ForgotPasswordPage = () => {
             fullWidth
             loading={loading}
           >
-            Enviar instrucciones
+            Enviar enlace de recuperación
           </Button>
         </form>
 
         <div className={styles.footer}>
           <Link to="/login" className={styles.loginLink}>
-            Recordé mi contraseña
+            Recuerdo mi contraseña
           </Link>
         </div>
       </div>
