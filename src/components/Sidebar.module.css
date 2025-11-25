@@ -48,8 +48,8 @@
 }
 
 .hamburgerBtn {
-  min-width: 48px;
-  min-height: 48px;
+  min-width: 40px;
+  min-height: 40px;
   background: none;
   border: none;
   cursor: pointer;
@@ -273,12 +273,12 @@
 
 @media (max-width: 768px) {
   .sidebar {
-    width: 64px;
+    width: 60px;
   }
 
   .sidebar.expanded {
     width: 100%;
-    max-width: 300px;
+    max-width: 280px;
   }
 
   .menuItem {
@@ -288,6 +288,12 @@
 
   .sidebarHeader {
     min-height: 64px;
+    padding: var(--space-4) var(--space-3);
+  }
+
+  .hamburgerBtn {
+    min-width: 36px;
+    min-height: 36px;
   }
 }
 

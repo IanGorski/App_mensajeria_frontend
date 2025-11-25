@@ -8,6 +8,15 @@ import axios from 'axios';
 import ENV from '../config/env';
 
 const ResetPasswordPage = () => {
+  //tema claro en páginas de autenticación
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', 'light');
+    return () => {
+      //Restaurar el tema guardado al salir
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    };
+  }, []);
   const { token } = useParams();
   const navigate = useNavigate();
   const [password, setPassword] = useState('');

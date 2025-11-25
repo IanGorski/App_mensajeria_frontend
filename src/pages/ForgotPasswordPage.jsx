@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Mail, CheckCircle } from 'lucide-react';
 import Input from '../ui/Input';
@@ -8,6 +8,15 @@ import axios from 'axios';
 import ENV from '../config/env';
 
 const ForgotPasswordPage = () => {
+  //tema claro en páginas de autenticación
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', 'light');
+    return () => {
+      //Restaurar el tema guardado al salir
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    };
+  }, []);
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Lock, User, ArrowRight, MessageCircle, CheckCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -7,6 +7,15 @@ import Button from '../ui/Button';
 import styles from './SignUpPage.module.css';
 
 function SignUpPage() {
+    //tema claro en páginas de autenticación
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', 'light');
+        return () => {
+            //Restaurar el tema guardado al salir
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        };
+    }, []);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
